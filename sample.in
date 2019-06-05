@@ -1,0 +1,5 @@
+entry class Hadi:
+    function main() returns int:
+        var a = a+1;
+    end
+end
