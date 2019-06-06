@@ -1,4 +1,4 @@
-// Generated from /home/mahdi/Desktop/compiler/project/Compiler_phase4/grammar/Toorla.g4 by ANTLR 4.7.2
+// Generated from /home/hadi/Desktop/compiler/Compiler_phase4/grammar/Toorla.g4 by ANTLR 4.7.2
 
 	import toorla.ast.Program;
 	import toorla.ast.Tree;
