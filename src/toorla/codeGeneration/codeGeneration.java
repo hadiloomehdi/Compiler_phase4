@@ -179,7 +179,7 @@ public class codeGeneration extends Visitor<Void> {
     }
 
     @Override
-    public Void visit(MethodDeclaration methodDeclaration) {/////////////////main doesnt handle
+    public Void visit(MethodDeclaration methodDeclaration) {
         SymbolTable.pushFromQueue();
         try{
             String access,paramType= "",returnType;
@@ -191,16 +191,13 @@ public class codeGeneration extends Visitor<Void> {
                 paramType += convertFieldType(arg.getType());
             returnType = convertFieldType(methodDeclaration.getReturnType());
             fw.write(".method " + access + " " + methodDeclaration.getName().getName() + "(" + paramType +")" + returnType );
+            fw.write(".limit stack 1000");
+            fw.write(".limit locals 1000");
+            for (Statement stmt : methodDeclaration.getBody())
+                stmt.accept(this);
+            fw.write(".end method");
         SymbolTable.pop();
-
-
         }catch (IOException e){}
-//        SymbolTable.push(new SymbolTable(SymbolTable.top()));
-//        for (ParameterDeclaration pd : methodDeclaration.getArgs())
-//            pd.accept(this);
-//        for (Statement stmt : methodDeclaration.getBody())
-//            stmt.accept(this);
-//        SymbolTable.pop();
         return null;
     }
 
