@@ -1,55 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c4ea4767-ff7f-452d-ad50-611ee45daf56" name="Default Changelist" comment="MethodDec half done">
+    <list default="true" id="c4ea4767-ff7f-452d-ad50-611ee45daf56" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/toorla/codeGeneration/codeGeneration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/toorla/codeGeneration/codeGeneration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaBaseListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaBaseListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaLexer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$Access_modifierContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$Access_modifierContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ClassDeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ClassDeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ClosedConditionalContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ClosedConditionalContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ClosedStatementContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ClosedStatementContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$EntryClassDeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$EntryClassDeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionAddContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionAddContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionAddTempContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionAddTempContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionAndContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionAndContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionAndTempContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionAndTempContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionCmpContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionCmpContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionCmpTempContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionCmpTempContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionEqContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionEqContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionEqTempContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionEqTempContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionMethodsContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionMethodsContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionMethodsTempContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionMethodsTempContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionMultModContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionMultModContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionMultModTempContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionMultModTempContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionOrContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionOrContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionOrTempContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionOrTempContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionOtherContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionOtherContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionUnaryContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ExpressionUnaryContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$FieldDeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$FieldDeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$MethodDeclarationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$MethodDeclarationContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$OpenConditionalContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$OpenConditionalContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$OpenStatementContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$OpenStatementContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ProgramContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ProgramContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$SingleTypeContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$SingleTypeContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementAssignmentContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementAssignmentContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementBlockContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementBlockContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementBreakContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementBreakContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementClosedLoopContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementClosedLoopContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementContinueContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementContinueContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementDecContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementDecContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementIncContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementIncContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementOpenLoopContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementOpenLoopContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementReturnContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementReturnContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementVarDefContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementVarDefContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementWriteContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$StatementWriteContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser$ToorlaTypeContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser$ToorlaTypeContext.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ToorlaParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ToorlaParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/toorla/codeGeneration/codeGeneration.class" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -60,13 +15,69 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sample.in">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="3" lean-forward="true" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gen/ToorlaBaseVisitor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/toorla/codeGeneration/codeGeneration.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="653">
-              <caret line="204" column="32" lean-forward="true" selection-start-line="204" selection-start-column="32" selection-end-line="204" selection-end-column="32" />
+            <state relative-caret-position="372">
+              <caret line="74" column="20" selection-start-line="74" selection-start-column="20" selection-end-line="74" selection-end-column="20" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#2804#2805#0" expanded="true" />
+                <element signature="e#2831#2832#0" expanded="true" />
+                <element signature="e#5611#5612#0" expanded="true" />
+                <element signature="e#5635#5636#0" expanded="true" />
+                <element signature="e#5247#5248#0" expanded="true" />
+                <element signature="e#5290#5291#0" expanded="true" />
+                <element signature="e#8092#8093#0" expanded="true" />
+                <element signature="e#8119#8120#0" expanded="true" />
+                <element signature="e#5408#5409#0" expanded="true" />
+                <element signature="e#5445#5446#0" expanded="true" />
+                <element signature="e#5565#5566#0" expanded="true" />
+                <element signature="e#5603#5604#0" expanded="true" />
+                <element signature="e#5852#5853#0" expanded="true" />
+                <element signature="e#5898#5899#0" expanded="true" />
+                <element signature="e#5937#5938#0" expanded="true" />
+                <element signature="e#5961#5962#0" expanded="true" />
+                <element signature="e#10010#10011#0" expanded="true" />
+                <element signature="e#10037#10038#0" expanded="true" />
+                <element signature="e#10101#10102#0" expanded="true" />
+                <element signature="e#10128#10129#0" expanded="true" />
+                <element signature="e#10180#10181#0" expanded="true" />
+                <element signature="e#10207#10208#0" expanded="true" />
+                <element signature="e#10371#10372#0" expanded="true" />
+                <element signature="e#10398#10399#0" expanded="true" />
+                <element signature="e#10706#10707#0" expanded="true" />
+                <element signature="e#10733#10734#0" expanded="true" />
+                <element signature="e#11035#11036#0" expanded="true" />
+                <element signature="e#11062#11063#0" expanded="true" />
+                <element signature="e#11110#11111#0" expanded="true" />
+                <element signature="e#11137#11138#0" expanded="true" />
+                <element signature="e#7893#7894#0" expanded="true" />
+                <element signature="e#7917#7918#0" expanded="true" />
+                <element signature="e#11292#11293#0" expanded="true" />
+                <element signature="e#11319#11320#0" expanded="true" />
+                <element signature="e#11371#11372#0" expanded="true" />
+                <element signature="e#11398#11399#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -75,11 +86,53 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/toorla/typeChecker/TypeChecker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="241" column="30" selection-start-line="241" selection-start-column="22" selection-end-line="241" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="1095">
+              <caret line="232" column="13" lean-forward="true" selection-start-line="232" selection-start-column="13" selection-end-line="232" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/toorla/visitor/Visitor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/toorla/visitor/ErrorReporter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="267">
+              <caret line="189" column="5" lean-forward="true" selection-start-line="185" selection-start-column="4" selection-end-line="189" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="9" lean-forward="true" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/toorla/ast/declaration/classDecs/classMembersDecs/AccessModifier.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/toorla/ast/expression/MethodCall.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -90,7 +143,13 @@
     <findStrings>
       <find>Access_MO</find>
       <find>ClassDe</find>
-      <find>main</find>
+      <find>Print</find>
+      <find>Entry</find>
+      <find>FieldDe</find>
+      <find>LocalVarDef</find>
+      <find>Program</find>
+      <find>MethodDe</find>
+      <find>MethodCall</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -99,22 +158,11 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/sample.in" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/toorla/codeGeneration/codeGeneration.java" />
       </list>
     </option>
-  </component>
-  <component name="MavenProjectNavigator">
-    <treeState>
-      <expand>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="phase3-provided" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-        </path>
-      </expand>
-      <select />
-    </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="width" value="949" />
@@ -126,14 +174,19 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="phase3-provided" type="b2602c69:ProjectViewProjectNode" />
               <item name="Compiler_phase4" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="phase3-provided" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Compiler_phase4" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="phase3-provided" type="b2602c69:ProjectViewProjectNode" />
@@ -145,6 +198,27 @@
               <item name="Compiler_phase4" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="toorla" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="phase3-provided" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Compiler_phase4" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="toorla" type="462c0819:PsiDirectoryNode" />
+              <item name="ast" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="phase3-provided" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Compiler_phase4" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="toorla" type="462c0819:PsiDirectoryNode" />
+              <item name="codeGeneration" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="phase3-provided" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Compiler_phase4" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="toorla" type="462c0819:PsiDirectoryNode" />
+              <item name="typeChecker" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="phase3-provided" type="b2602c69:ProjectViewProjectNode" />
@@ -162,7 +236,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1559819233339" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1559746467887" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -201,7 +275,7 @@
       <updated>1559721260253</updated>
       <workItem from="1559721267875" duration="5850000" />
       <workItem from="1559804842993" duration="2208000" />
-      <workItem from="1559809518971" duration="4679000" />
+      <workItem from="1559809518971" duration="6652000" />
     </task>
     <task id="LOCAL-00001" summary="create initial files">
       <created>1559728937672</created>
@@ -217,24 +291,24 @@
       <option name="project" value="LOCAL" />
       <updated>1559805074612</updated>
     </task>
-    <task id="LOCAL-00003" summary="MethodDec half done">
-      <created>1559818817944</created>
+    <task id="LOCAL-00003" summary="convert Type function">
+      <created>1559818134656</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1559818817944</updated>
+      <updated>1559818134656</updated>
     </task>
     <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13802000" />
+    <option name="totallyTimeSpent" value="14710000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="27" width="1853" height="1053" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25235197" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.255119" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -272,8 +346,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="create initial files" />
     <MESSAGE value="gitignore" />
-    <MESSAGE value="MethodDec half done" />
-    <option name="LAST_COMMIT_MESSAGE" value="MethodDec half done" />
+    <MESSAGE value="convert Type function" />
+    <option name="LAST_COMMIT_MESSAGE" value="convert Type function" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Toorla.java">
@@ -302,8 +376,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/toorla/ast/expression/Identifier.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        <state relative-caret-position="345">
+          <caret line="32" column="1" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -316,13 +390,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.project">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="10" lean-forward="true" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sample.in">
       <provider selected="true" editor-type-id="text-editor">
@@ -357,77 +424,101 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/toorla/typeChecker/ExpressionTypeExtractor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="275" column="20" selection-start-line="275" selection-start-column="20" selection-end-line="275" selection-end-column="20" />
+        <state relative-caret-position="300">
+          <caret line="56" column="35" lean-forward="true" selection-start-line="56" selection-start-column="35" selection-end-line="56" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/toorla/ast/declaration/classDecs/classMembersDecs/AccessModifier.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+        <state relative-caret-position="105">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/toorla/ast/declaration/classDecs/classMembersDecs/MethodDeclaration.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
-          <caret line="39" column="20" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
-          <folding>
-            <element signature="e#1120#1121#0" expanded="true" />
-            <element signature="e#1162#1163#0" expanded="true" />
-          </folding>
+          <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/toorla/symbolTable/symbolTableItem/MethodSymbolTableItem.java">
+    <entry file="file://$PROJECT_DIR$/src/toorla/visitor/Visitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
+        <state relative-caret-position="60">
+          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/toorla/ast/statement/PrintLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="24" column="1" lean-forward="true" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="9" lean-forward="true" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/toorla/typeChecker/TypeChecker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="241" column="30" selection-start-line="241" selection-start-column="22" selection-end-line="241" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="1095">
+          <caret line="232" column="13" lean-forward="true" selection-start-line="232" selection-start-column="13" selection-end-line="232" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/toorla/nameAnalyzer/NameAnalyzer.java">
+    <entry file="file://$PROJECT_DIR$/src/toorla/visitor/ErrorReporter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/toorla/nameAnalyzer/NameCheckingPass.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/toorla/symbolTable/SymbolTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="17" column="46" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="46" />
-          <folding>
-            <element signature="e#1036#1037#0" expanded="true" />
-            <element signature="e#1079#1080#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="267">
+          <caret line="189" column="5" lean-forward="true" selection-start-line="185" selection-start-column="4" selection-end-line="189" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/toorla/codeGeneration/codeGeneration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="653">
-          <caret line="204" column="32" lean-forward="true" selection-start-line="204" selection-start-column="32" selection-end-line="204" selection-end-column="32" />
+        <state relative-caret-position="372">
+          <caret line="74" column="20" selection-start-line="74" selection-start-column="20" selection-end-line="74" selection-end-column="20" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#2804#2805#0" expanded="true" />
+            <element signature="e#2831#2832#0" expanded="true" />
+            <element signature="e#5611#5612#0" expanded="true" />
+            <element signature="e#5635#5636#0" expanded="true" />
+            <element signature="e#5247#5248#0" expanded="true" />
+            <element signature="e#5290#5291#0" expanded="true" />
+            <element signature="e#8092#8093#0" expanded="true" />
+            <element signature="e#8119#8120#0" expanded="true" />
+            <element signature="e#5408#5409#0" expanded="true" />
+            <element signature="e#5445#5446#0" expanded="true" />
+            <element signature="e#5565#5566#0" expanded="true" />
+            <element signature="e#5603#5604#0" expanded="true" />
+            <element signature="e#5852#5853#0" expanded="true" />
+            <element signature="e#5898#5899#0" expanded="true" />
+            <element signature="e#5937#5938#0" expanded="true" />
+            <element signature="e#5961#5962#0" expanded="true" />
+            <element signature="e#10010#10011#0" expanded="true" />
+            <element signature="e#10037#10038#0" expanded="true" />
+            <element signature="e#10101#10102#0" expanded="true" />
+            <element signature="e#10128#10129#0" expanded="true" />
+            <element signature="e#10180#10181#0" expanded="true" />
+            <element signature="e#10207#10208#0" expanded="true" />
+            <element signature="e#10371#10372#0" expanded="true" />
+            <element signature="e#10398#10399#0" expanded="true" />
+            <element signature="e#10706#10707#0" expanded="true" />
+            <element signature="e#10733#10734#0" expanded="true" />
+            <element signature="e#11035#11036#0" expanded="true" />
+            <element signature="e#11062#11063#0" expanded="true" />
+            <element signature="e#11110#11111#0" expanded="true" />
+            <element signature="e#11137#11138#0" expanded="true" />
+            <element signature="e#7893#7894#0" expanded="true" />
+            <element signature="e#7917#7918#0" expanded="true" />
+            <element signature="e#11292#11293#0" expanded="true" />
+            <element signature="e#11319#11320#0" expanded="true" />
+            <element signature="e#11371#11372#0" expanded="true" />
+            <element signature="e#11398#11399#0" expanded="true" />
           </folding>
         </state>
       </provider>

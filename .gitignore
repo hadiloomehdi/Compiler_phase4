@@ -1,4 +1,5 @@
 ./gen/*
 ./.settings/*
-./idea/*
+./.idea/*
 ./target/*
+./pom.xml
