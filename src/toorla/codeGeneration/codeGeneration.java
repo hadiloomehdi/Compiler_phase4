@@ -41,6 +41,7 @@ import java.util.ArrayList;
 public class codeGeneration extends Visitor<Void> {
     private FileWriter fw;
     private ArrayList<String> instructionList = new ArrayList<>();
+    private int lableCounter = 0;
 
     @Override
     public Void visit(Block block) {
@@ -270,10 +271,34 @@ public class codeGeneration extends Visitor<Void> {
     }
 
     public Void visit(And andExpr) {
+        String nElse = "ELSE_" + (lableCounter++);
+        String nAfter = "AFTER_" + (lableCounter++);
+        andExpr.getLhs().accept(this);
+        instructionList.add("ifeq " + nElse);
+        andExpr.getRhs().accept(this);
+        instructionList.add("goto " + nAfter);
+
+        instructionList.add(nElse + ":");
+        instructionList.add("iconst_0");
+
+        instructionList.add(nAfter + ":");
+
         return null;
     }
 
     public Void visit(Or orExpr) {
+        String nElse = "ELSE_" + (lableCounter++);
+        String nAfter = "AFTER_" + (lableCounter++);
+        orExpr.getLhs().accept(this);
+        instructionList.add("ifeq " + nElse);
+        instructionList.add("iconst_1");
+        instructionList.add("goto " + nAfter);
+
+        instructionList.add(nElse + ":");
+        orExpr.getRhs().accept(this);
+
+        instructionList.add(nAfter + ":");
+
         return null;
     }
 
