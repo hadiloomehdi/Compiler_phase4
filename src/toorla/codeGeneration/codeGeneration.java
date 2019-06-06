@@ -43,6 +43,10 @@ public class codeGeneration extends Visitor<Void> {
     private ArrayList<String> instructionList = new ArrayList<>();
     private int lableCounter = 0;
 
+    public codeGeneration(){
+
+    }
+
     @Override
     public Void visit(Block block) {
         SymbolTable.push(new SymbolTable(SymbolTable.top()));
@@ -172,6 +176,7 @@ public class codeGeneration extends Visitor<Void> {
             return "I";
         if (type instanceof StringType)
             return "Ljava/lang/String;";
+        return "";
     }
 
     @Override
@@ -202,7 +207,7 @@ public class codeGeneration extends Visitor<Void> {
 
     void makeAnyClass() {
         try {
-            File file = new File("../artifact/Any.j");/////////need work
+            File file = new File("../artifact/Any.j");
             boolean fvar = file.createNewFile();
             if (fvar){
                 System.out.println("File has been created successfully");
@@ -281,6 +286,9 @@ public class codeGeneration extends Visitor<Void> {
     }
 
     public Void visit(GreaterThan gtExpr) {
+        gtExpr.getLhs().accept(this);
+        gtExpr.getRhs().accept(this);
+//        instructionList.add("if_cmpgt " + uniqeLable);
 
         return null;
     }
@@ -338,24 +346,20 @@ public class codeGeneration extends Visitor<Void> {
     @Override
     public Void visit(MethodDeclaration methodDeclaration) {
         SymbolTable.pushFromQueue();
-        try{
-            String access,paramType= "",returnType;
-            if (methodDeclaration.getAccessModifier() == AccessModifier.ACCESS_MODIFIER_PRIVATE )
-                access = "praivate";
-            else
-                access = "public";
-            for (ParameterDeclaration arg : methodDeclaration.getArgs())
-                paramType += convertFieldType(arg.getType());
-            returnType = convertFieldType(methodDeclaration.getReturnType());
-            fw.write(".method " + access + " " + methodDeclaration.getName().getName() + "(" + paramType +")" + returnType );
-            fw.write(".limit stack 1000");
-            fw.write(".limit locals 1000");
-            for (Statement stmt : methodDeclaration.getBody())
-                stmt.accept(this);
-            fw.write(".end method");
-        }catch (IOException e){
-
-        }
+        String access,paramType= "",returnType;
+        if (methodDeclaration.getAccessModifier() == AccessModifier.ACCESS_MODIFIER_PRIVATE )
+            access = "praivate";
+        else
+            access = "public";
+        for (ParameterDeclaration arg : methodDeclaration.getArgs())
+            paramType += convertFieldType(arg.getType());
+        returnType = convertFieldType(methodDeclaration.getReturnType());
+        instructionList.add(".method " + access + " " + methodDeclaration.getName().getName() + "(" + paramType +")" + returnType );
+        instructionList.add(".limit stack 1000");
+        instructionList.add(".limit locals 1000");
+        for (Statement stmt : methodDeclaration.getBody())
+            stmt.accept(this);
+        instructionList.add(".end method");
         SymbolTable.pop();
         return null;
     }
