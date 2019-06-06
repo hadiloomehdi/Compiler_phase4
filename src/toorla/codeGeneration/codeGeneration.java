@@ -81,11 +81,9 @@ public class codeGeneration extends Visitor<Void> {
 
     @Override
     public Void visit(ClassDeclaration classDeclaration) {
-        ClassSymbolTableItem thisClass = new ClassSymbolTableItem(classDeclaration.getName().getName());
-        SymbolTable.push(new SymbolTable(SymbolTable.top()));
+        SymbolTable.pushFromQueue();
         try {
-            File file = new File("./../artifact" + classDeclaration.getName().getName() +".j");/////////need work
-
+            File file = new File("../artifact" + classDeclaration.getName().getName() +".j");/////////need work
             boolean fvar = file.createNewFile();
              if (fvar){
                   System.out.println("File has been created successfully");
@@ -98,8 +96,8 @@ public class codeGeneration extends Visitor<Void> {
             e.printStackTrace();
         }
         try{
-            fw=new FileWriter("./../artifact" + classDeclaration.getName().getName() +".j");
-            fw.write(".class public"+ classDeclaration.getName().getName());
+            fw=new FileWriter("../artifact" + classDeclaration.getName().getName() +".j");
+            fw.write(".class public" + classDeclaration.getName().getName());
             String father;
             if(classDeclaration.getParentName() == null) {
                 father = "java/lang/Object";
@@ -107,14 +105,18 @@ public class codeGeneration extends Visitor<Void> {
             else
                 father = classDeclaration.getParentName().getName();
             fw.write(".super "); ///////////need work
+            fw.write(father);
+            // constructor
             fw.write(".method public <init>()V");
             fw.write("aload_0");
             fw.write("invokespecial " + father +"/<init>()V");
+            fw.write("return");
+            fw.write(".end method");
 
         }catch(Exception e){
 
         }
-        for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())/////////////need work
+        for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
             if (cmd instanceof MethodCall)
                 cmd.accept(this);
         try{
@@ -122,7 +124,6 @@ public class codeGeneration extends Visitor<Void> {
         }catch (IOException e){
 
         }
-
         SymbolTable.pop();
         return null;
     }
@@ -133,14 +134,10 @@ public class codeGeneration extends Visitor<Void> {
         return null;
     }
 
-    public String fieldType(Type type)
+    public String convertFieldType(Type type)
     {
-        if (type instanceof ArrayType && (((ArrayType) type).getSingleType() instanceof BoolType))
-            return "[Z";
-        if (type instanceof ArrayType && (((ArrayType) type).getSingleType() instanceof IntType))
-            return "[I";
-        if (type instanceof ArrayType && (((ArrayType) type).getSingleType() instanceof StringType))
-            return "[Ljava/lang/String;";
+        if (type instanceof ArrayType)
+            return "[" + convertFieldType(((ArrayType) type).getSingleType());
         if (type instanceof BoolType)
             return "Z";
         if (type instanceof IntType)
@@ -154,8 +151,10 @@ public class codeGeneration extends Visitor<Void> {
         try {
             fw.write(".field public ");
             fw.write(fieldDeclaration.getIdentifier().getName());
-            fw.write(fieldType(fieldDeclaration.getType()));
-        }catch (IOException e){}
+            fw.write(convertFieldType(fieldDeclaration.getType()));
+        } catch (IOException e){
+
+        }
         return null;
     }
 
@@ -209,8 +208,39 @@ public class codeGeneration extends Visitor<Void> {
         return null;
     }
 
+    void makeAnyClass() {
+        try {
+            File file = new File("../artifact/Any.j");/////////need work
+            boolean fvar = file.createNewFile();
+            if (fvar){
+                System.out.println("File has been created successfully");
+            }
+            else{
+                System.out.println("File already present at the specified location");
+            }
+        } catch (IOException e) {
+            System.out.println("Exception Occurred:");
+            e.printStackTrace();
+        }
+        try{
+            fw = new FileWriter("../artifact/Any.j");
+            fw.write(".class public Any");
+            fw.write(".super java/lang/Object");
+            // constructor
+            fw.write(".method public <init>()V");
+            fw.write("aload_0");
+            fw.write("invokespecial java/lang/Object/<init>()V");
+            fw.write("return");
+            fw.write(".end method");
+
+        }catch(Exception e){
+
+        }
+    }
+
     @Override
     public Void visit(Program program) {
+        makeAnyClass();
         for (ClassDeclaration cd : program.getClasses()) {
             cd.accept(this);
         }

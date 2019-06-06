@@ -1,4 +1,4 @@
-entry class Hadi:
+entry class Example:
     function main() returns int:
         var a = a+1;
     end
