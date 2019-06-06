@@ -22,6 +22,10 @@ import toorla.symbolTable.symbolTableItem.MethodSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.varItems.FieldSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.varItems.LocalVariableSymbolTableItem;
 import toorla.types.Type;
+import toorla.types.arrayType.ArrayType;
+import toorla.types.singleType.BoolType;
+import toorla.types.singleType.IntType;
+import toorla.types.singleType.StringType;
 import toorla.visitor.Visitor;
 import java.io.File;
 import java.io.IOException;
@@ -129,28 +133,29 @@ public class codeGeneration extends Visitor<Void> {
         return null;
     }
 
+    public String fieldType(Type type)
+    {
+        if (type instanceof ArrayType && (((ArrayType) type).getSingleType() instanceof BoolType))
+            return "[Z";
+        if (type instanceof ArrayType && (((ArrayType) type).getSingleType() instanceof IntType))
+            return "[I";
+        if (type instanceof ArrayType && (((ArrayType) type).getSingleType() instanceof StringType))
+            return "[Ljava/lang/String;";
+        if (type instanceof BoolType)
+            return "Z";
+        if (type instanceof IntType)
+            return "I";
+        if (type instanceof StringType)
+            return "Ljava/lang/String;";
+    }
+
     @Override
     public Void visit(FieldDeclaration fieldDeclaration) {
         try {
             fw.write(".field public ");
             fw.write(fieldDeclaration.getIdentifier().getName());
-        }catch (IOException e){
-
-        }
-        //        if (!fieldDeclaration.getIdentifier().getName().equals("length")) {
-//            try {
-//                SymbolTable.top().put(new FieldSymbolTableItem(fieldDeclaration.getIdentifier().getName(),
-//                        fieldDeclaration.getAccessModifier(), fieldDeclaration.getType()));
-//            } catch (ItemAlreadyExistsException e) {
-//                FieldRedefinitionException ee = new FieldRedefinitionException(
-//                        fieldDeclaration.getIdentifier().getName(), fieldDeclaration.line, fieldDeclaration.col);
-//                fieldDeclaration.addError(ee);
-//            }
-//        } else {
-//            FieldNamedLengthDeclarationException e = new FieldNamedLengthDeclarationException(
-//                    fieldDeclaration.getIdentifier().line, fieldDeclaration.getIdentifier().col);
-//            fieldDeclaration.addError(e);
-//        }
+            fw.write(fieldType(fieldDeclaration.getType()));
+        }catch (IOException e){}
         return null;
     }
 
