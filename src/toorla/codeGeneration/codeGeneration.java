@@ -7,6 +7,7 @@ import toorla.ast.declaration.classDecs.classMembersDecs.ClassMemberDeclaration;
 import toorla.ast.declaration.classDecs.classMembersDecs.FieldDeclaration;
 import toorla.ast.declaration.classDecs.classMembersDecs.MethodDeclaration;
 import toorla.ast.declaration.localVarDecs.ParameterDeclaration;
+import toorla.ast.expression.MethodCall;
 import toorla.ast.statement.Block;
 import toorla.ast.statement.Conditional;
 import toorla.ast.statement.Statement;
@@ -79,7 +80,7 @@ public class codeGeneration extends Visitor<Void> {
         ClassSymbolTableItem thisClass = new ClassSymbolTableItem(classDeclaration.getName().getName());
         SymbolTable.push(new SymbolTable(SymbolTable.top()));
         try {
-            File file = new File("./../" + classDeclaration.getName().getName() +".txt");/////////need work
+            File file = new File("./../artifact" + classDeclaration.getName().getName() +".j");/////////need work
 
             boolean fvar = file.createNewFile();
              if (fvar){
@@ -93,18 +94,25 @@ public class codeGeneration extends Visitor<Void> {
             e.printStackTrace();
         }
         try{
-            fw=new FileWriter("./../" + classDeclaration.getName().getName() +".txt");
+            fw=new FileWriter("./../artifact" + classDeclaration.getName().getName() +".j");
             fw.write(".class public"+ classDeclaration.getName().getName());
+            String father;
+            if(classDeclaration.getParentName() == null) {
+                father = "java/lang/Object";
+            }
+            else
+                father = classDeclaration.getParentName().getName();
             fw.write(".super "); ///////////need work
             fw.write(".method public <init>()V");
             fw.write("aload_0");
-            fw.write("invokespecial " + super +"/<init>()V");/////////////????constracter
+            fw.write("invokespecial " + father +"/<init>()V");
 
         }catch(Exception e){
 
         }
-        for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
-            cmd.accept(this);
+        for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())/////////////need work
+            if (cmd instanceof MethodCall)
+                cmd.accept(this);
         try{
             fw.close();
         }catch (IOException e){
@@ -123,20 +131,26 @@ public class codeGeneration extends Visitor<Void> {
 
     @Override
     public Void visit(FieldDeclaration fieldDeclaration) {
-        if (!fieldDeclaration.getIdentifier().getName().equals("length")) {
-            try {
-                SymbolTable.top().put(new FieldSymbolTableItem(fieldDeclaration.getIdentifier().getName(),
-                        fieldDeclaration.getAccessModifier(), fieldDeclaration.getType()));
-            } catch (ItemAlreadyExistsException e) {
-                FieldRedefinitionException ee = new FieldRedefinitionException(
-                        fieldDeclaration.getIdentifier().getName(), fieldDeclaration.line, fieldDeclaration.col);
-                fieldDeclaration.addError(ee);
-            }
-        } else {
-            FieldNamedLengthDeclarationException e = new FieldNamedLengthDeclarationException(
-                    fieldDeclaration.getIdentifier().line, fieldDeclaration.getIdentifier().col);
-            fieldDeclaration.addError(e);
+        try {
+            fw.write(".field public ");
+            fw.write(fieldDeclaration.getIdentifier().getName());
+        }catch (IOException e){
+
         }
+        //        if (!fieldDeclaration.getIdentifier().getName().equals("length")) {
+//            try {
+//                SymbolTable.top().put(new FieldSymbolTableItem(fieldDeclaration.getIdentifier().getName(),
+//                        fieldDeclaration.getAccessModifier(), fieldDeclaration.getType()));
+//            } catch (ItemAlreadyExistsException e) {
+//                FieldRedefinitionException ee = new FieldRedefinitionException(
+//                        fieldDeclaration.getIdentifier().getName(), fieldDeclaration.line, fieldDeclaration.col);
+//                fieldDeclaration.addError(ee);
+//            }
+//        } else {
+//            FieldNamedLengthDeclarationException e = new FieldNamedLengthDeclarationException(
+//                    fieldDeclaration.getIdentifier().line, fieldDeclaration.getIdentifier().col);
+//            fieldDeclaration.addError(e);
+//        }
         return null;
     }
 
