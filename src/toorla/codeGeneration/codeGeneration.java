@@ -54,21 +54,40 @@ public class codeGeneration extends Visitor<Void> {
 
     @Override
     public Void visit(Conditional conditional) {
-        SymbolTable.push(new SymbolTable(SymbolTable.top()));
+        String nElse = "ELSE_" + (lableCounter++);
+        String nAfter = "AFTER_" + (lableCounter++);
+        conditional.getCondition().accept(this);
+        instructionList.add("ifeq " + nElse);
+        SymbolTable.pushFromQueue();
         conditional.getThenStatement().accept(this);
         SymbolTable.pop();
-        SymbolTable.push(new SymbolTable(SymbolTable.top()));
+        instructionList.add("goto " + nAfter);
+        instructionList.add(nElse + ":");
+        SymbolTable.pushFromQueue();
         conditional.getElseStatement().accept(this);
         SymbolTable.pop();
+        instructionList.add(nAfter + ":");
+
         return null;
 
     }
 
     @Override
     public Void visit(While whileStat) {
-        SymbolTable.push(new SymbolTable(SymbolTable.top()));
+        String nStmt = "STMT_" + (lableCounter++);
+        String nStart = "START_" + (lableCounter++);
+        instructionList.add("goto " + nStart);
+
+        instructionList.add(nStmt + ":");
+        SymbolTable.pushFromQueue();
         whileStat.body.accept(this);
         SymbolTable.pop();
+
+        instructionList.add(nStart + ":");
+        whileStat.expr.accept(this);
+
+        instructionList.add("ifneq " +  nStmt);
+
         return null;
     }
 
@@ -270,7 +289,7 @@ public class codeGeneration extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(And andExpr) {
+    public Void visit(And andExpr) { // short circuit
         String nElse = "ELSE_" + (lableCounter++);
         String nAfter = "AFTER_" + (lableCounter++);
         andExpr.getLhs().accept(this);
@@ -286,7 +305,7 @@ public class codeGeneration extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Or orExpr) {
+    public Void visit(Or orExpr) { // short circuit
         String nElse = "ELSE_" + (lableCounter++);
         String nAfter = "AFTER_" + (lableCounter++);
         orExpr.getLhs().accept(this);
