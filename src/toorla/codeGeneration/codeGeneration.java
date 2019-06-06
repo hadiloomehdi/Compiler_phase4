@@ -3,6 +3,7 @@ package toorla.codeGeneration;
 import toorla.ast.Program;
 import toorla.ast.declaration.classDecs.ClassDeclaration;
 import toorla.ast.declaration.classDecs.EntryClassDeclaration;
+import toorla.ast.declaration.classDecs.classMembersDecs.AccessModifier;
 import toorla.ast.declaration.classDecs.classMembersDecs.ClassMemberDeclaration;
 import toorla.ast.declaration.classDecs.classMembersDecs.FieldDeclaration;
 import toorla.ast.declaration.classDecs.classMembersDecs.MethodDeclaration;
@@ -178,25 +179,28 @@ public class codeGeneration extends Visitor<Void> {
     }
 
     @Override
-    public Void visit(MethodDeclaration methodDeclaration) {
-        newLocalVarIndex = 1;
-        try {
-            ArrayList<Type> argumentsTypes = new ArrayList<>();
+    public Void visit(MethodDeclaration methodDeclaration) {/////////////////main doesnt handle
+        SymbolTable.pushFromQueue();
+        try{
+            String access,paramType= "",returnType;
+            if (methodDeclaration.getAccessModifier() == AccessModifier.ACCESS_MODIFIER_PRIVATE )
+                access = "praivate";
+            else
+                access = "public";
             for (ParameterDeclaration arg : methodDeclaration.getArgs())
-                argumentsTypes.add(arg.getType());
-            SymbolTable.top().put(new MethodSymbolTableItem(methodDeclaration.getName().getName(),
-                    methodDeclaration.getReturnType(), argumentsTypes, methodDeclaration.getAccessModifier()));
-        } catch (ItemAlreadyExistsException e) {
-            MethodRedefinitionException ee = new MethodRedefinitionException(methodDeclaration.getName().getName(),
-                    methodDeclaration.getName().line, methodDeclaration.getName().col);
-            methodDeclaration.addError(ee);
-        }
-        SymbolTable.push(new SymbolTable(SymbolTable.top()));
-        for (ParameterDeclaration pd : methodDeclaration.getArgs())
-            pd.accept(this);
-        for (Statement stmt : methodDeclaration.getBody())
-            stmt.accept(this);
+                paramType += convertFieldType(arg.getType());
+            returnType = convertFieldType(methodDeclaration.getReturnType());
+            fw.write(".method " + access + " " + methodDeclaration.getName().getName() + "(" + paramType +")" + returnType );
         SymbolTable.pop();
+
+
+        }catch (IOException e){}
+//        SymbolTable.push(new SymbolTable(SymbolTable.top()));
+//        for (ParameterDeclaration pd : methodDeclaration.getArgs())
+//            pd.accept(this);
+//        for (Statement stmt : methodDeclaration.getBody())
+//            stmt.accept(this);
+//        SymbolTable.pop();
         return null;
     }
 
