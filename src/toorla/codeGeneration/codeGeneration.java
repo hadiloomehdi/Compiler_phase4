@@ -40,6 +40,7 @@ import java.util.ArrayList;
 
 public class codeGeneration extends Visitor<Void> {
     private FileWriter fw;
+    private ArrayList<String> instructionList = new ArrayList<>();
 
     @Override
     public Void visit(Block block) {
@@ -73,6 +74,16 @@ public class codeGeneration extends Visitor<Void> {
     @Override
     public Void visit(LocalVarDef localVarDef) {
         return null;
+    }
+
+    void writeInstructions() {
+        try {
+            for (String str : instructionList)
+                fw.write(str);
+        } catch (IOException exc) {
+            System.out.println("IO Exception Occurred:");
+            exc.printStackTrace();
+        }
     }
 
     @Override
@@ -112,9 +123,10 @@ public class codeGeneration extends Visitor<Void> {
         }catch(Exception e){
 
         }
+        instructionList.clear();
         for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
-            if (cmd instanceof MethodCall)
                 cmd.accept(this);
+        writeInstructions();
         try{
             fw.close();
         }catch (IOException e){
@@ -209,27 +221,37 @@ public class codeGeneration extends Visitor<Void> {
     }
 
     public Void visit(Plus plusExpr) {
-
+        plusExpr.getLhs().accept(this);
+        plusExpr.getRhs().accept(this);
+        instructionList.add("iadd");
         return null;
     }
 
     public Void visit(Minus minusExpr) {
-
+        minusExpr.getLhs().accept(this);
+        minusExpr.getRhs().accept(this);
+        instructionList.add("isub");
         return null;
     }
 
     public Void visit(Times timesExpr) {
-
+        timesExpr.getLhs().accept(this);
+        timesExpr.getRhs().accept(this);
+        instructionList.add("imul");
         return null;
     }
 
     public Void visit(Division divExpr) {
-
+        divExpr.getLhs().accept(this);
+        divExpr.getRhs().accept(this);
+        instructionList.add("idiv");
         return null;
     }
 
     public Void visit(Modulo moduloExpr) {
-
+        moduloExpr.getLhs().accept(this);
+        moduloExpr.getRhs().accept(this);
+        instructionList.add("irem");
         return null;
     }
 
@@ -287,8 +309,10 @@ public class codeGeneration extends Visitor<Void> {
             for (Statement stmt : methodDeclaration.getBody())
                 stmt.accept(this);
             fw.write(".end method");
-            SymbolTable.pop();
-        }catch (IOException e){}
+        }catch (IOException e){
+
+        }
+        SymbolTable.pop();
         return null;
     }
 
