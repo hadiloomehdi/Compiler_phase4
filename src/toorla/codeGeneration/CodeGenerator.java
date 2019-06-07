@@ -372,11 +372,16 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(MethodCall methodCall) {
-        for (Expression ex : methodCall.getArgs())
+        methodCall.getInstance().accept(this);
+        String args = "";
+        for (Expression ex : methodCall.getArgs()) {
             ex.accept(this);
-//        Type instanceType =  methodCall.getInstance().accept(getType);
-//        instanceType.toString()
-
+            args +=  convertType(ex.accept(getType));
+        }
+        String methodName = methodCall.getMethodName().getName();
+        String obj = ((UserDefinedType)methodCall.getInstance().accept(getType)).getClassDeclaration().getName().getName();
+        String returnTupe = convertType(methodCall.accept(getType));
+        instructionList.add("invokevirtual " +obj + "/" + methodName + "(" + args + ")" + returnTupe);
         return null;
     }
 
@@ -402,7 +407,7 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Identifier identifier) {
+    public Void visit(Identifier identifier) {////////////////////////////////////////////////////////////////////////////need work
         return null;
     }
 
@@ -425,6 +430,7 @@ public class CodeGenerator extends Visitor<Void> {
             return ((UserDefinedType)type).getClassDeclaration().getName().getName();
         if (type instanceof StringType)
             return "java/lang/String";
+        return "";
     }
 
     public Void visit(NewArray newArray) {
@@ -478,7 +484,7 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(NotEquals notEquals) {
+    public Void visit(NotEquals notEquals) {//////////////////////////////////////////////////////////////////////////nnd work
 
         return null;
     }
@@ -495,7 +501,7 @@ public class CodeGenerator extends Visitor<Void> {
         return !(type instanceof IntType || type instanceof BoolType);
     }
 
-    public Void visit(Assign assignStat) {
+    public Void visit(Assign assignStat) {////////////////////////////////////////////////////////////////////////////need work
         assignStat.getLvalue().accept(this);
         assignStat.getRvalue().accept(this);
         Type LType = assignStat.getLvalue().accept(getType);
