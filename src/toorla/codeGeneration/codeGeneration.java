@@ -341,15 +341,29 @@ public class codeGeneration extends Visitor<Void> {
     }
 
     public Void visit(Neg negExpr) {
-
+        negExpr.accept(this);
+        instructionList.add("ineg");
         return null;
     }
 
     public Void visit(Not notExpr) {
+        notExpr.accept(this);
+        String L1 = "TRUE_" + (lableCounter++);
+        String L2 = "FALSE_" + (lableCounter++);
+        instructionList.add("ifeq" + L1);
+        instructionList.add("icont_0");
+        instructionList.add("goto" + L2);
+        instructionList.add(L1 + ":");
+        instructionList.add("iconst_1");
+        instructionList.add(L2 + ":");
         return null;
     }
 
     public Void visit(MethodCall methodCall) {
+        for (Expression ex : methodCall.getArgs())
+            ex.accept(this);
+//        methodCall.getInstance().
+
 
         return null;
     }
