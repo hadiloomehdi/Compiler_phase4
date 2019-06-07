@@ -436,14 +436,18 @@ public class CodeGenerator extends Visitor<Void> {
 
     public Void visit(NewClassInstance newClassInstance)
     {
+
         return null;
     }
 
     public Void visit(FieldCall fieldCall) {
+
         return null;
     }
 
     public Void visit(ArrayCall arrayCall) {
+        arrayCall.getInstance().accept(this);
+        arrayCall.getIndex().accept(this);
         return null;
     }
 
@@ -460,17 +464,33 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Assign assignStat) {
+    public boolean hasRefrence(Type type) {
+        return !(type instanceof IntType || type instanceof BoolType);
+    }
 
+    public Void visit(Assign assignStat) {
+        assignStat.getLvalue().accept(this);
+        assignStat.getRvalue().accept(this);
+        Type LType = assignStat.getLvalue().accept(getType);
+        Type RType = assignStat.getRvalue().accept(getType);
+        String assignIns = "";
+        if (hasRefrence(RType))
+            assignIns += "a";
+        else
+            assignIns += "i";
+        if (hasRefrence(LType))
+            assignIns += "a";
+        assignIns += "store";
+        instructionList.add(assignIns);
         return null;
     }
 
     public Void visit(Return returnStat) {
         Type returnType = returnStat.getReturnedExpr().accept(getType);
-        if (returnType instanceof IntType || returnType instanceof BoolType)
-            instructionList.add("ireturn");
-        else
+        if (hasRefrence(returnType))
             instructionList.add("areturn");
+        else
+            instructionList.add("ireturn");
         return null;
     }
 
