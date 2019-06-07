@@ -398,21 +398,26 @@ public class codeGeneration extends Visitor<Void> {
     }
 
     public Void visit(IntValue intValue) {
-
+        instructionList.add("bipush " + intValue.getConstant());
         return null;
     }
 
     public Void visit(NewArray newArray) {
-
+        newArray.getLength().accept(this);
+        instructionList.add("newarray " + convertFieldType());
         return null;
     }
 
     public Void visit(BoolValue booleanValue) {
-
+        if (booleanValue.isConstant())
+            instructionList.add("iconst_1");
+        else
+            instructionList.add("iconst_0");
         return null;
     }
 
     public Void visit(StringValue stringValue) {
+        instructionList.add("ldc " + "\"" + stringValue.getConstant() + "\"");
         return null;
     }
 
