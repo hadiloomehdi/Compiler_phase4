@@ -415,9 +415,23 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
+    public String getTypeName(Type type) {
+        if (type instanceof IntType)
+            return "int";
+        if (type instanceof BoolType)
+            return "bool";
+        if (type instanceof UserDefinedType)
+            return ((UserDefinedType)type).getClassDeclaration().getName().getName();
+        if (type instanceof StringType)
+            return "java/lang/String";
+    }
+
     public Void visit(NewArray newArray) {
         newArray.getLength().accept(this);
-        instructionList.add("newarray ");
+        if (hasRefrence(newArray.getType()))
+            instructionList.add("anewarray " + getTypeName(newArray.getType()));
+        else
+            instructionList.add("newarray " + getTypeName(newArray.getType()));
         return null;
     }
 
@@ -436,7 +450,10 @@ public class CodeGenerator extends Visitor<Void> {
 
     public Void visit(NewClassInstance newClassInstance)
     {
-
+        String objName = newClassInstance.getClassName().getName();
+        instructionList.add("new " + objName);
+        instructionList.add("dup");
+        instructionList.add("invokespecial " + objName + "/<init>()V");
         return null;
     }
 
