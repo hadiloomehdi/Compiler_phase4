@@ -1,5 +1,6 @@
 package toorla.codeGeneration;
 
+import sun.tools.java.ClassType;
 import toorla.ast.Program;
 import toorla.ast.declaration.classDecs.ClassDeclaration;
 import toorla.ast.declaration.classDecs.EntryClassDeclaration;
@@ -373,8 +374,8 @@ public class CodeGenerator extends Visitor<Void> {
     public Void visit(MethodCall methodCall) {
         for (Expression ex : methodCall.getArgs())
             ex.accept(this);
-//        methodCall.getInstance().
-
+//        Type instanceType =  methodCall.getInstance().accept(getType);
+//        instanceType.toString()
 
         return null;
     }
@@ -441,7 +442,16 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(FieldCall fieldCall) {
+        fieldCall.getInstance().accept(this );
+        if (fieldCall.getField().getName().equals("length")){
+            instructionList.add("arraylength");
+            return null ;
+        }
+        String fieldName = fieldCall.getField().getName();
+        String obj = ((UserDefinedType)fieldCall.getInstance().accept(getType)).getClassDeclaration().getName().getName();
+        String type =  convertType(fieldCall.getInstance().accept(getType));
 
+        instructionList.add("getfield " + obj + "/" + fieldName + ' '+ type);
         return null;
     }
 
