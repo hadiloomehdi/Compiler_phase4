@@ -294,7 +294,7 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Equals equalsExpr) {//////////////////////////////////////////////////////////////////////////////need double check
+    public Void visit(Equals equalsExpr) {//////need double check
         equalsExpr.getLhs().accept(this);
         equalsExpr.getRhs().accept(this);
         Type equal = equalsExpr.getLhs().accept(getType);
@@ -588,12 +588,12 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Break breakStat) {//////////////////////////////////////////////////////////////////////////////need work
+    public Void visit(Break breakStat) {//////////////////////////////////////////////////need work
 
         return null;
     }
 
-    public Void visit(Continue continueStat) {//////////////////////////////////////////////////////////////////////////////need work
+    public Void visit(Continue continueStat) {//////////////////////////////////////////////////need work
 
         return null;
     }
