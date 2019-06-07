@@ -100,6 +100,9 @@ public class CodeGenerator extends Visitor<Void> {
 
     @Override
     public Void visit(LocalVarDef localVarDef) {
+        // initialization
+
+        SymbolTable.define();
         return null;
     }
 
@@ -116,6 +119,7 @@ public class CodeGenerator extends Visitor<Void> {
     @Override
     public Void visit(ClassDeclaration classDeclaration) {
         SymbolTable.pushFromQueue();
+        getType.setCurrentClass(classDeclaration);
         try {
             File file = new File("../artifact" + classDeclaration.getName().getName() +".j");
             boolean fvar = file.createNewFile();
@@ -199,6 +203,7 @@ public class CodeGenerator extends Visitor<Void> {
 
     @Override
     public Void visit(ParameterDeclaration parameterDeclaration) {
+        SymbolTable.define();
         return null;
     }
 
@@ -376,6 +381,7 @@ public class CodeGenerator extends Visitor<Void> {
 
     @Override
     public Void visit(MethodDeclaration methodDeclaration) {
+        SymbolTable.reset();
         SymbolTable.pushFromQueue();
         String access,paramType= "",returnType;
         if (methodDeclaration.getAccessModifier() == AccessModifier.ACCESS_MODIFIER_PRIVATE )
@@ -469,10 +475,12 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(Break breakStat) {
+
         return null;
     }
 
     public Void visit(Continue continueStat) {
+
         return null;
     }
 
