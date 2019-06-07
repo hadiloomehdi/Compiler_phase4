@@ -25,6 +25,7 @@ import toorla.symbolTable.SymbolTable;
 import toorla.symbolTable.exceptions.ItemAlreadyExistsException;
 import toorla.symbolTable.symbolTableItem.ClassSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.MethodSymbolTableItem;
+import toorla.symbolTable.symbolTableItem.SymbolTableItem;
 import toorla.symbolTable.symbolTableItem.varItems.FieldSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.varItems.LocalVariableSymbolTableItem;
 import toorla.typeChecker.ExpressionTypeExtractor;
@@ -462,7 +463,7 @@ public class CodeGenerator extends Visitor<Void> {
         fieldCall.getInstance().accept(this );
         if (fieldCall.getField().getName().equals("length")){
             instructionList.add("arraylength");
-            return null ;
+            return null;
         }
         String fieldName = fieldCall.getField().getName();
         String obj = ((UserDefinedType)fieldCall.getInstance().accept(getType)).getClassDeclaration().getName().getName();
@@ -495,20 +496,55 @@ public class CodeGenerator extends Visitor<Void> {
         return !(type instanceof IntType || type instanceof BoolType);
     }
 
+    public boolean identifierIsField(String varName) {
+        try {
+            SymbolTableItem item = SymbolTable.top().get(varName);
+            if (item instanceof FieldSymbolTableItem)
+                return true;
+            else
+                return false;
+        } catch (Exception exc) {
+            // dont occur
+        }
+    }
+
+    public int getIndexLocalVar(String localVarName) {
+        try {
+            return ((LocalVariableSymbolTableItem) SymbolTable.top().get(localVarName)).getIndex();
+        } catch (Exception exc) {
+            // dont occur
+        }
+    }
+
     public Void visit(Assign assignStat) {
-        assignStat.getLvalue().accept(this);
-        assignStat.getRvalue().accept(this);
-        Type LType = assignStat.getLvalue().accept(getType);
-        Type RType = assignStat.getRvalue().accept(getType);
-        String assignIns = "";
-        if (hasRefrence(RType))
-            assignIns += "a";
-        else
-            assignIns += "i";
-        if (hasRefrence(LType))
-            assignIns += "a";
-        assignIns += "store";
-        instructionList.add(assignIns);
+        if (assignStat.getLvalue() instanceof FieldCall) {
+            Type objType = ((FieldCall)assignStat.getLvalue()).getInstance().accept(getType);
+            String objName = getTypeName(objType);
+            String fieldName = ((FieldCall)assignStat.getLvalue()).getField().getName();
+            String fieldType = convertType(assignStat.getLvalue().accept(getType));
+            instructionList.add("putfield " + objName + "/" + fieldName + " " + fieldType);
+        }
+        else if ((assignStat.getLvalue() instanceof Identifier) && identifierIsField(((Identifier)assignStat.getLvalue()).getName())) {
+
+        }
+        else {
+            assignStat.getLvalue().accept(this);
+            assignStat.getRvalue().accept(this);
+            Type RType = assignStat.getRvalue().accept(getType);
+            if (assignStat.getLvalue() instanceof ArrayCall) {
+                if (hasRefrence(RType))
+                    instructionList.add("aastore");
+                else
+                    instructionList.add("iastore");
+            }
+            else {
+                int index = getIndexLocalVar(((Identifier)assignStat.getLvalue()).getName());
+                if (hasRefrence(RType))
+                    instructionList.add("astore_" + index);
+                else
+                    instructionList.add("istore_" + index);
+            }
+        }
         return null;
     }
 
