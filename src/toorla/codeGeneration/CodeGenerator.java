@@ -28,6 +28,7 @@ import toorla.symbolTable.symbolTableItem.MethodSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.SymbolTableItem;
 import toorla.symbolTable.symbolTableItem.varItems.FieldSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.varItems.LocalVariableSymbolTableItem;
+import toorla.symbolTable.symbolTableItem.varItems.VarSymbolTableItem;
 import toorla.typeChecker.ExpressionTypeExtractor;
 import toorla.types.Type;
 import toorla.types.arrayType.ArrayType;
@@ -293,7 +294,30 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Equals equalsExpr) {
+    public Void visit(Equals equalsExpr) {//////////////////////////////////////////////////////////////////////////////need double check
+        equalsExpr.getLhs().accept(this);
+        equalsExpr.getRhs().accept(this);
+        Type equal = equalsExpr.getLhs().accept(getType);
+        if (equal instanceof IntType || equal instanceof BoolType){//////////need check
+            String L1 = "TRUE_" + (lableCounter++);
+            String L2 = "FALSE_" + (lableCounter++);
+            instructionList.add("ifeq" + L1);
+            instructionList.add("icont_0");
+            instructionList.add("goto" + L2);
+            instructionList.add(L1 + ":");
+            instructionList.add("iconst_1");
+            instructionList.add(L2 + ":");
+        }
+        else if (equal instanceof StringType){
+            instructionList.add("invokevirtual java/lang/String.equals(Ljava/lang/String;Ljava/lang/String)Z");////////// .equal or /equal?????
+        }
+        else if (equal instanceof UserDefinedType){
+            instructionList.add("invokevirtual java/lang/Object.equals(Ljava/lang/Object;Ljava/lang/Object;)Z");
+        }
+        else {//////equal instancceof ArrayType
+            instructionList.add("invokevirtual java/util/Arrays.equals([Ljava/util/Arrays;[Ljava/util/Arrays)Z");
+        }
+
 
         return null;
     }
@@ -373,11 +397,16 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(MethodCall methodCall) {
-        for (Expression ex : methodCall.getArgs())
+        methodCall.getInstance().accept(this);
+        String args = "";
+        for (Expression ex : methodCall.getArgs()) {
             ex.accept(this);
-//        Type instanceType =  methodCall.getInstance().accept(getType);
-//        instanceType.toString()
-
+            args +=  convertType(ex.accept(getType));
+        }
+        String methodName = methodCall.getMethodName().getName();
+        String obj = ((UserDefinedType)methodCall.getInstance().accept(getType)).getClassDeclaration().getName().getName();
+        String returnTupe = convertType(methodCall.accept(getType));
+        instructionList.add("invokevirtual " +obj + "/" + methodName + "(" + args + ")" + returnTupe);
         return null;
     }
 
@@ -403,7 +432,7 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Identifier identifier) {
+    public Void visit(Identifier identifier) {////////////////////////////////////////////////////////////////////////////need work
         return null;
     }
 
@@ -426,6 +455,7 @@ public class CodeGenerator extends Visitor<Void> {
             return ((UserDefinedType)type).getClassDeclaration().getName().getName();
         if (type instanceof StringType)
             return "java/lang/String";
+        return "";
     }
 
     public Void visit(NewArray newArray) {
@@ -479,8 +509,9 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(NotEquals notEquals) {
-
+    public Void visit(NotEquals notEquals) {//////////////////////////////////////////////////////////////////////////nnd work
+        Not not = new Not(new Equals(notEquals.getLhs(),notEquals.getRhs()));
+        not.accept(this);
         return null;
     }
 
@@ -557,12 +588,12 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Break breakStat) {
+    public Void visit(Break breakStat) {//////////////////////////////////////////////////////////////////////////////need work
 
         return null;
     }
 
-    public Void visit(Continue continueStat) {
+    public Void visit(Continue continueStat) {//////////////////////////////////////////////////////////////////////////////need work
 
         return null;
     }
@@ -573,10 +604,16 @@ public class CodeGenerator extends Visitor<Void> {
 
 
     public Void visit(IncStatement incStatement) {
+        Plus plus = new Plus(incStatement.getOperand(),new IntValue(1));
+        Assign assign = new Assign(incStatement.getOperand(),plus);
+        assign.accept(this);
         return null;
     }
 
     public Void visit(DecStatement decStatement) {
+        Minus minus = new Minus(decStatement.getOperand(),new IntValue(1));
+        Assign assign = new Assign(decStatement.getOperand(),minus);
+        assign.accept(this);
         return null;
     }
 
