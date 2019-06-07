@@ -1,7 +1,9 @@
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import toorla.ast.Program;
+import toorla.codeGeneration.CodeGenerator;
 import toorla.nameAnalyzer.NameAnalyzer;
+import toorla.typeChecker.ExpressionTypeExtractor;
 import toorla.typeChecker.TypeChecker;
 import toorla.visitor.ErrorReporter;
 
@@ -21,5 +23,7 @@ public class ToorlaCompiler {
         if( numOfErrors > 0 )
             System.exit(1);
         System.out.println("No error detected;");
+        CodeGenerator codeGenerator = new CodeGenerator(new ExpressionTypeExtractor(nameAnalyzer.getClassHierarchy()));
+
     }
 }

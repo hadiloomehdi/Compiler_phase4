@@ -26,11 +26,13 @@ import toorla.symbolTable.symbolTableItem.ClassSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.MethodSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.varItems.FieldSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.varItems.LocalVariableSymbolTableItem;
+import toorla.typeChecker.ExpressionTypeExtractor;
 import toorla.types.Type;
 import toorla.types.arrayType.ArrayType;
 import toorla.types.singleType.BoolType;
 import toorla.types.singleType.IntType;
 import toorla.types.singleType.StringType;
+import toorla.types.singleType.UserDefinedType;
 import toorla.visitor.Visitor;
 import java.io.File;
 import java.io.IOException;
@@ -38,13 +40,14 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
-public class codeGeneration extends Visitor<Void> {
+public class CodeGenerator extends Visitor<Void> {
     private FileWriter fw;
     private ArrayList<String> instructionList = new ArrayList<>();
     private int lableCounter = 0;
+    private ExpressionTypeExtractor getType;
 
-    public codeGeneration() {
-
+    public CodeGenerator(ExpressionTypeExtractor getType) {
+        this.getType = getType;
     }
 
     @Override
@@ -166,16 +169,18 @@ public class codeGeneration extends Visitor<Void> {
         return null;
     }
 
-    public String convertFieldType(Type type)
+    public String convertType(Type type)
     {
         if (type instanceof ArrayType)
-            return "[" + convertFieldType(((ArrayType) type).getSingleType());
+            return "[" + convertType(((ArrayType) type).getSingleType());
         if (type instanceof BoolType)
             return "Z";
         if (type instanceof IntType)
             return "I";
         if (type instanceof StringType)
             return "Ljava/lang/String;";
+        if (type instanceof UserDefinedType)
+            return "L" + ((UserDefinedType)type).getClassDeclaration().getName().getName() + ";";
         return "";
     }
 
@@ -184,7 +189,7 @@ public class codeGeneration extends Visitor<Void> {
         try {
             fw.write(".field public ");
             fw.write(fieldDeclaration.getIdentifier().getName());
-            fw.write(convertFieldType(fieldDeclaration.getType()));
+            fw.write(convertType(fieldDeclaration.getType()));
         } catch (IOException e){
 
         }
@@ -341,7 +346,7 @@ public class codeGeneration extends Visitor<Void> {
     }
 
     public Void visit(Neg negExpr) {
-        negExpr.accept(this);
+        negExpr.getExpr().accept(this);
         instructionList.add("ineg");
         return null;
     }
@@ -377,8 +382,8 @@ public class codeGeneration extends Visitor<Void> {
         else
             access = "public";
         for (ParameterDeclaration arg : methodDeclaration.getArgs())
-            paramType += convertFieldType(arg.getType());
-        returnType = convertFieldType(methodDeclaration.getReturnType());
+            paramType += convertType(arg.getType());
+        returnType = convertType(methodDeclaration.getReturnType());
         instructionList.add(".method " + access + " " + methodDeclaration.getName().getName() + "(" + paramType +")" + returnType );
         instructionList.add(".limit stack 1000");
         instructionList.add(".limit locals 1000");
@@ -404,7 +409,7 @@ public class codeGeneration extends Visitor<Void> {
 
     public Void visit(NewArray newArray) {
         newArray.getLength().accept(this);
-        instructionList.add("newarray " + convertFieldType());
+        instructionList.add("newarray ");
         return null;
     }
 
@@ -440,6 +445,10 @@ public class codeGeneration extends Visitor<Void> {
     }
 
     public Void visit(PrintLine printStat) {
+        instructionList.add("getstatic java/lang/System/out Ljava/io/PrintStream;");
+        printStat.getArg().accept(this);
+        Type printType = printStat.getArg().accept(getType);
+        instructionList.add("invokevirtual java/io/PrintStream/println(" + convertType(printType) + ")V");
         return null;
     }
 
@@ -448,11 +457,12 @@ public class codeGeneration extends Visitor<Void> {
         return null;
     }
 
-
-
-
     public Void visit(Return returnStat) {
-
+        Type returnType = returnStat.getReturnedExpr().accept(getType);
+        if (returnType instanceof IntType || returnType instanceof BoolType)
+            instructionList.add("ireturn");
+        else
+            instructionList.add("areturn");
         return null;
     }
 
