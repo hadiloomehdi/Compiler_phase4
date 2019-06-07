@@ -293,7 +293,30 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Equals equalsExpr) {//////////////////////////////////////////////////////////////////////////////need work
+    public Void visit(Equals equalsExpr) {//////////////////////////////////////////////////////////////////////////////need double check
+        equalsExpr.getLhs().accept(this);
+        equalsExpr.getRhs().accept(this);
+        Type equal = equalsExpr.getLhs().accept(getType);
+        if (equal instanceof IntType || equal instanceof BoolType){//////////need check
+            String L1 = "TRUE_" + (lableCounter++);
+            String L2 = "FALSE_" + (lableCounter++);
+            instructionList.add("ifeq" + L1);
+            instructionList.add("icont_0");
+            instructionList.add("goto" + L2);
+            instructionList.add(L1 + ":");
+            instructionList.add("iconst_1");
+            instructionList.add(L2 + ":");
+        }
+        else if (equal instanceof StringType){
+            instructionList.add("invokevirtual java/lang/String.equals(Ljava/lang/String;Ljava/lang/String)Z");////////// .equal or /equal?????
+        }
+        else if (equal instanceof UserDefinedType){
+            instructionList.add("invokevirtual java/lang/Object.equals(Ljava/lang/Object;Ljava/lang/Object;)Z");
+        }
+        else {//////equal instancceof ArrayType
+            instructionList.add("invokevirtual java/util/Arrays.equals([Ljava/util/Arrays;[Ljava/util/Arrays)Z");
+        }
+
 
         return null;
     }
@@ -486,7 +509,8 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(NotEquals notEquals) {//////////////////////////////////////////////////////////////////////////nnd work
-
+        Not not = new Not(new Equals(notEquals.getLhs(),notEquals.getRhs()));
+        not.accept(this);
         return null;
     }
 
