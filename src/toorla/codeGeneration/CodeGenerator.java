@@ -27,6 +27,7 @@ import toorla.symbolTable.symbolTableItem.ClassSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.MethodSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.varItems.FieldSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.varItems.LocalVariableSymbolTableItem;
+import toorla.symbolTable.symbolTableItem.varItems.VarSymbolTableItem;
 import toorla.typeChecker.ExpressionTypeExtractor;
 import toorla.types.Type;
 import toorla.types.arrayType.ArrayType;
@@ -292,7 +293,7 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Equals equalsExpr) {
+    public Void visit(Equals equalsExpr) {//////////////////////////////////////////////////////////////////////////////need work
 
         return null;
     }
@@ -527,12 +528,12 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Break breakStat) {
+    public Void visit(Break breakStat) {//////////////////////////////////////////////////////////////////////////////need work
 
         return null;
     }
 
-    public Void visit(Continue continueStat) {
+    public Void visit(Continue continueStat) {//////////////////////////////////////////////////////////////////////////////need work
 
         return null;
     }
@@ -543,10 +544,16 @@ public class CodeGenerator extends Visitor<Void> {
 
 
     public Void visit(IncStatement incStatement) {
+        Plus plus = new Plus(incStatement.getOperand(),new IntValue(1));
+        Assign assign = new Assign(incStatement.getOperand(),plus);
+        assign.accept(this);
         return null;
     }
 
     public Void visit(DecStatement decStatement) {
+        Minus minus = new Minus(decStatement.getOperand(),new IntValue(1));
+        Assign assign = new Assign(decStatement.getOperand(),minus);
+        assign.accept(this);
         return null;
     }
 
