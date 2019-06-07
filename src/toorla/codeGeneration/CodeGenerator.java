@@ -194,6 +194,7 @@ public class CodeGenerator extends Visitor<Void> {
 
         }
         return null;
+
     }
 
     @Override
@@ -399,6 +400,7 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(Self self) {
+        instructionList.add("aload_0");
         return null;
     }
 
