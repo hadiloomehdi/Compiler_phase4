@@ -43,13 +43,13 @@ public class codeGeneration extends Visitor<Void> {
     private ArrayList<String> instructionList = new ArrayList<>();
     private int lableCounter = 0;
 
-    public codeGeneration(){
+    public codeGeneration() {
 
     }
 
     @Override
     public Void visit(Block block) {
-        SymbolTable.push(new SymbolTable(SymbolTable.top()));
+        SymbolTable.pushFromQueue();
         for (Statement stmt : block.body)
             stmt.accept(this);
         SymbolTable.pop();
@@ -285,15 +285,26 @@ public class codeGeneration extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(GreaterThan gtExpr) {
-        gtExpr.getLhs().accept(this);
-        gtExpr.getRhs().accept(this);
-//        instructionList.add("if_cmpgt " + uniqeLable);
+    void if_cmpXX(BinaryExpression exp, String op) {
+        String L1 = "TRUE_" + (lableCounter++);
+        String L2 = "FALSE_" + (lableCounter++);
+        exp.getLhs().accept(this);
+        exp.getRhs().accept(this);
+        instructionList.add(op + " " + L1);
+        instructionList.add("iconst_0");
+        instructionList.add("goto " + L2);
+        instructionList.add(L1 + ":");
+        instructionList.add("iconst_1");
+        instructionList.add(L2 + ":");
+    }
 
+    public Void visit(GreaterThan gtExpr) {
+        if_cmpXX(gtExpr, "if_cmpgt");
         return null;
     }
 
     public Void visit(LessThan lessThanExpr) {
+        if_cmpXX(lessThanExpr, "if_cmplt");
         return null;
     }
 
