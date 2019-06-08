@@ -93,9 +93,11 @@ public class SymbolTable {
         do {
             visitedSymbolTables.add( currentSymbolTable );
             SymbolTableItem value = currentSymbolTable.items.get(key);
-            if( value != null )
-                if( value.getDefinitionNumber() <= SymbolTable.mustBeUsedAfterDefCount)
+            if( value != null ) {
+                if (value.getDefinitionNumber() <= SymbolTable.mustBeUsedAfterDefCount) {
                     return value;
+                }
+            }
             currentSymbolTable = currentSymbolTable.getPreSymbolTable();
         } while( currentSymbolTable != null &&
                 !visitedSymbolTables.contains( currentSymbolTable ) );
@@ -108,5 +110,9 @@ public class SymbolTable {
 
     public void setPreSymbolTable(SymbolTable symbolTable) {
         pre = symbolTable;
+    }
+
+    public void print() {
+        System.out.println(this.items);
     }
 }

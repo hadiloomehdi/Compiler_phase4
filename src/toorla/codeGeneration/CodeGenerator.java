@@ -112,8 +112,10 @@ public class CodeGenerator extends Visitor<Void> {
     public Void visit(LocalVarDef localVarDef) {
         // initialization
         Assign assign = new Assign(localVarDef.getLocalVarName(), localVarDef.getInitialValue());
-        assign.accept(this);
+
         SymbolTable.define();
+        assign.accept(this);
+
         return null;
     }
 
@@ -148,9 +150,10 @@ public class CodeGenerator extends Visitor<Void> {
         }
         try{
             fw=new FileWriter("./src/toorla/artifact/" + classDeclaration.getName().getName() +".j");
-            fw.write(".class public" + classDeclaration.getName().getName());
+            fw.write(".class public " + classDeclaration.getName().getName() + "\n");
             String father;
-            if(classDeclaration.getParentName() == null) {
+//            System.out.println(classDeclaration.getParentName());
+            if(classDeclaration.getParentName().getName() == null) {
                 father = "Any";
             }
             else
@@ -242,15 +245,15 @@ public class CodeGenerator extends Visitor<Void> {
         }
         try{
             fw = new FileWriter("./src/toorla/artifact/Any.j");
-            fw.write(".class public Any");
-            fw.write(".super java/lang/Object");
+            fw.write(".class public Any\n");
+            fw.write(".super java/lang/Object\n");
             // constructor
-            fw.write(".method public <init>()V");
-            fw.write("aload_0");
-            fw.write("invokespecial java/lang/Object/<init>()V");
-            fw.write("return");
-            fw.write(".end method");
-
+            fw.write(".method public <init>()V\n");
+            fw.write("aload_0\n");
+            fw.write("invokespecial java/lang/Object/<init>()V\n");
+            fw.write("return\n");
+            fw.write(".end method\n");
+            fw.close();
         }catch(Exception e){
 
         }
@@ -455,11 +458,11 @@ public class CodeGenerator extends Visitor<Void> {
 
     public int getIndexLocalVar(String localVarName) {
         try {
-            SymbolTableItem item = SymbolTable.top().get(localVarName);
-            System.out.println(((FieldSymbolTableItem)item).getAccessModifier());
-            return ((LocalVariableSymbolTableItem)SymbolTable.top().get(localVarName)).getIndex();
+//            SymbolTable.top().print();
+            SymbolTableItem item = SymbolTable.top().get("var_" + localVarName);
+            return item.getDefinitionNumber();
         } catch (Exception exc) {
-            exc.printStackTrace();
+//            exc.printStackTrace();
         }
         return -1;
     }
@@ -526,7 +529,8 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(StringValue stringValue) {
-        instructionList.add("ldc " + "\"" + stringValue.getConstant() + "\"");
+//        instructionList.add("ldc " + "\"" + stringValue.getConstant() + "\"");
+        instructionList.add("ldc " + stringValue.getConstant() );
         return null;
     }
 
@@ -602,9 +606,9 @@ public class CodeGenerator extends Visitor<Void> {
                     instructionList.add("iastore");
             }
             else {
-                instructionList.add("Debug");
+//                instructionList.add("Debug");
                 int index = getIndexLocalVar(((Identifier)assignStat.getLvalue()).getName());
-                System.out.println(index);
+//                System.out.println(index);
                 if (hasRefrence(RType))
                     instructionList.add("astore " + index);
                 else
@@ -615,6 +619,7 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(Return returnStat) {
+        returnStat.getReturnedExpr().accept(this);
         Type returnType = returnStat.getReturnedExpr().accept(getType);
         if (hasRefrence(returnType))
             instructionList.add("areturn");
