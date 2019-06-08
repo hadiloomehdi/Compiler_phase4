@@ -355,7 +355,7 @@ public class CodeGenerator extends Visitor<Void> {
             String L1 = "TRUE_" + (lableCounter++);
             String L2 = "FALSE_" + (lableCounter++);
             instructionList.add("ifeq" + L1);
-            instructionList.add("icont_0");
+            instructionList.add("iconst_0");
             instructionList.add("goto" + L2);
             instructionList.add(L1 + ":");
             instructionList.add("iconst_1");
@@ -441,7 +441,7 @@ public class CodeGenerator extends Visitor<Void> {
         String L1 = "TRUE_" + (lableCounter++);
         String L2 = "FALSE_" + (lableCounter++);
         instructionList.add("ifeq" + L1);
-        instructionList.add("icont_0");
+        instructionList.add("iconst_0");
         instructionList.add("goto" + L2);
         instructionList.add(L1 + ":");
         instructionList.add("iconst_1");
