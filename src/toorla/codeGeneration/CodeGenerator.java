@@ -201,13 +201,10 @@ public class CodeGenerator extends Visitor<Void> {
 
     @Override
     public Void visit(FieldDeclaration fieldDeclaration) {
-        try {
-            fw.write(".field public ");
-            fw.write(fieldDeclaration.getIdentifier().getName());
-            fw.write(convertType(fieldDeclaration.getType()));
-        } catch (IOException e){
+            instructionList.add(".field public " + fieldDeclaration.getIdentifier().getName() + " " + convertType(fieldDeclaration.getType()));
+//            instructionList.add();
+//            fw.write();
 
-        }
         return null;
 
     }
