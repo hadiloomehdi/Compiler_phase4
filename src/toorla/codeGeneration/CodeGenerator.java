@@ -42,13 +42,15 @@ import java.io.IOException;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class CodeGenerator extends Visitor<Void> {
     private FileWriter fw;
     private ArrayList<String> instructionList = new ArrayList<>();
     private int lableCounter = 0;
     private ExpressionTypeExtractor getType;
-
+    private Stack <String> breaks;
+    private Stack <String> continues;
     public CodeGenerator(ExpressionTypeExtractor getType) {
         this.getType = getType;
     }
@@ -84,20 +86,24 @@ public class CodeGenerator extends Visitor<Void> {
 
     @Override
     public Void visit(While whileStat) {
+
         String nStmt = "STMT_" + (lableCounter++);
         String nStart = "START_" + (lableCounter++);
+        String exit  = "EXIT_" + (lableCounter++);
+        breaks.push(exit);
+        continues.push(nStart);
         instructionList.add("goto " + nStart);
-
         instructionList.add(nStmt + ":");
         SymbolTable.pushFromQueue();
         whileStat.body.accept(this);
         SymbolTable.pop();
-
         instructionList.add(nStart + ":");
         whileStat.expr.accept(this);
 
         instructionList.add("ifneq " +  nStmt);
-
+        instructionList.add(exit + ":");
+        breaks.pop();
+        continues.pop();
         return null;
     }
 
@@ -127,11 +133,11 @@ public class CodeGenerator extends Visitor<Void> {
             File file = new File("./src/toorla/artifact/s" + classDeclaration.getName().getName() +".j");
             boolean fvar = file.createNewFile();
             if (fvar){
-                System.out.println("File has been created successfully");
+//                System.out.println("File has been created successfully");
             }
             else{
-                System.out.println(classDeclaration.getName().getName() );
-                System.out.println("File already present at the specified location");
+//                System.out.println(classDeclaration.getName().getName() );
+//                System.out.println("File already present at the specified location");
             }
         } catch (IOException e) {
             System.out.println("Exception Occurred:");
@@ -146,7 +152,7 @@ public class CodeGenerator extends Visitor<Void> {
             }
             else
                 father = classDeclaration.getParentName().getName();
-            fw.write(".super "); ///////////need work
+            fw.write(".super ");
             fw.write(father);
             // constructor
             fw.write(".method public <init>()V");
@@ -225,10 +231,10 @@ public class CodeGenerator extends Visitor<Void> {
             File file = new File("./src/toorla/artifact/Any.j");
             boolean fvar = file.createNewFile();
             if (fvar){
-                System.out.println("File has been created successfully");
+//                System.out.println("File has been created successfully");
             }
             else{
-                System.out.println("File already present at the specified location");
+//                System.out.println("File already present at the specified location");
             }
         } catch (IOException e) {
             System.out.println("Exception Occurred:");
@@ -295,11 +301,11 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Equals equalsExpr) {//////need double check
+    public Void visit(Equals equalsExpr) {
         equalsExpr.getLhs().accept(this);
         equalsExpr.getRhs().accept(this);
         Type equal = equalsExpr.getLhs().accept(getType);
-        if (equal instanceof IntType || equal instanceof BoolType){//////////need check
+        if (equal instanceof IntType || equal instanceof BoolType){
             String L1 = "TRUE_" + (lableCounter++);
             String L2 = "FALSE_" + (lableCounter++);
             instructionList.add("ifeq" + L1);
@@ -310,7 +316,7 @@ public class CodeGenerator extends Visitor<Void> {
             instructionList.add(L2 + ":");
         }
         else if (equal instanceof StringType){
-            instructionList.add("invokevirtual java/lang/String.equals(Ljava/lang/String;)Z");////////// .equal or /equal?????
+            instructionList.add("invokevirtual java/lang/String.equals(Ljava/lang/String;)Z");
         }
         else if (equal instanceof UserDefinedType){
             instructionList.add("invokevirtual java/lang/Object.equals(Ljava/lang/Object;)Z");
@@ -434,6 +440,15 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(Identifier identifier) {////////////////////////////////////////////////////////////////////////////need work
+//        try {
+//            VarSymbolTableItem var = (VarSymbolTableItem)(SymbolTable.top().get("var_" + identifier.getName()));
+//            if (var.mustBeUsedAfterDef()){
+//                var.getDefinitionNumber();
+//            }
+//
+//        }catch (Exception e){
+//
+//        }
         return null;
     }
 
@@ -510,7 +525,7 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(NotEquals notEquals) {//////////////////////////////////////////////////////////////////////////nnd work
+    public Void visit(NotEquals notEquals) {
         Not not = new Not(new Equals(notEquals.getLhs(),notEquals.getRhs()));
         not.accept(this);
         return null;
@@ -591,13 +606,13 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Break breakStat) {//////////////////////////////////////////////////need work
-
+    public Void visit(Break breakStat) {
+        instructionList.add("goto" + breaks.peek());
         return null;
     }
 
-    public Void visit(Continue continueStat) {//////////////////////////////////////////////////need work
-
+    public Void visit(Continue continueStat) {
+        instructionList.add("goto" + continues.peek());
         return null;
     }
 
