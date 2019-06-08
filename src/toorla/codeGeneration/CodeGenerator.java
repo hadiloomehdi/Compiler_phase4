@@ -119,7 +119,8 @@ public class CodeGenerator extends Visitor<Void> {
     void writeInstructions() {
         try {
             for (String str : instructionList)
-                fw.write(str);
+                fw.write(str + "\n");
+
         } catch (IOException exc) {
             System.out.println("IO Exception Occurred:");
             exc.printStackTrace();
@@ -153,14 +154,13 @@ public class CodeGenerator extends Visitor<Void> {
             }
             else
                 father = classDeclaration.getParentName().getName();
-            fw.write(".super ");
-            fw.write(father);
+            fw.write(".super " + father + "\n");
             // constructor
-            fw.write(".method public <init>()V");
-            fw.write("aload_0");
-            fw.write("invokespecial " + father +"/<init>()V");
-            fw.write("return");
-            fw.write(".end method");
+            fw.write(".method public <init>()V \n");
+            fw.write("aload_0\n");
+            fw.write("invokespecial " + father +"/<init>()V\n");
+            fw.write("return\n");
+            fw.write(".end method\n");
 
         }catch(Exception e){
 
