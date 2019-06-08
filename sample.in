@@ -2,6 +2,8 @@ entry class MainTest :
     public field x int;
     public function main() returns int:
         var a = new int[2];
+        var b = new int[2];
+        print("hello");
         return 0;
     end
 end

@@ -5,7 +5,6 @@ aload_0
 invokespecial Any/<init>()V
 return
 .end method
-.field public x I
 .method public main()I
 .limit stack 1000
 .limit locals 1000

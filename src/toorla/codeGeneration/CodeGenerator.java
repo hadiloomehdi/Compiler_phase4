@@ -135,7 +135,8 @@ public class CodeGenerator extends Visitor<Void> {
         SymbolTable.pushFromQueue();
         getType.setCurrentClass(classDeclaration);
         try {
-            File file = new File("./src/toorla/artifact/s" + classDeclaration.getName().getName() +".j");
+//            System.out.println(classDeclaration.getName().getName());
+            File file = new File("./src/toorla/artifact/" + classDeclaration.getName().getName() +".j");
             boolean fvar = file.createNewFile();
             if (fvar){
 //                System.out.println("File has been created successfully");
@@ -159,6 +160,10 @@ public class CodeGenerator extends Visitor<Void> {
             else
                 father = classDeclaration.getParentName().getName();
             fw.write(".super " + father + "\n");
+            //field
+            for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
+                if (cmd instanceof FieldDeclaration)
+                    cmd.accept(this);
             // constructor
             fw.write(".method public <init>()V \n");
             fw.write("aload_0\n");
@@ -170,9 +175,7 @@ public class CodeGenerator extends Visitor<Void> {
 
         }
         instructionList.clear();
-        for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
-                if (cmd instanceof FieldDeclaration)
-                    cmd.accept(this);
+
         for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
             if (cmd instanceof MethodDeclaration)
                 cmd.accept(this);
