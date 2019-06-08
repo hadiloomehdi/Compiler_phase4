@@ -102,7 +102,7 @@ public class CodeGenerator extends Visitor<Void> {
         instructionList.add(nStart + ":");
         whileStat.expr.accept(this);
 
-        instructionList.add("ifneq " +  nStmt);
+        instructionList.add("ifne " +  nStmt);
         instructionList.add(exit + ":");
         breaks.pop();
         continues.pop();
@@ -389,12 +389,12 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(GreaterThan gtExpr) {
-        if_cmpXX(gtExpr, "if_cmpgt");
+        if_cmpXX(gtExpr, "if_icmpgt");
         return null;
     }
 
     public Void visit(LessThan lessThanExpr) {
-        if_cmpXX(lessThanExpr, "if_cmplt");
+        if_cmpXX(lessThanExpr, "if_icmplt");
         return null;
     }
 
