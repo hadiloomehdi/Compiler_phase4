@@ -167,6 +167,10 @@ public class CodeGenerator extends Visitor<Void> {
         }
         instructionList.clear();
         for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
+                if (cmd instanceof FieldDeclaration)
+                    cmd.accept(this);
+        for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
+            if (cmd instanceof MethodDeclaration)
                 cmd.accept(this);
         writeInstructions();
         try{
@@ -473,15 +477,15 @@ public class CodeGenerator extends Visitor<Void> {
             int index = getIndexLocalVar(identifier.getName());
             Type type = identifier.accept(getType);
             if (hasRefrence(type))
-                instructionList.add("aload_" + index);
+                instructionList.add("aload " + index);
             else
-                instructionList.add("iload_" + index);
+                instructionList.add("iload " + index);
         }
         return null;
     }
 
     public Void visit(Self self) {
-        instructionList.add("aload_0");
+        instructionList.add("aload 0");
         return null;
     }
 
@@ -598,9 +602,9 @@ public class CodeGenerator extends Visitor<Void> {
             else {
                 int index = getIndexLocalVar(((Identifier)assignStat.getLvalue()).getName());
                 if (hasRefrence(RType))
-                    instructionList.add("astore_" + index);
+                    instructionList.add("astore " + index);
                 else
-                    instructionList.add("istore_" + index);
+                    instructionList.add("istore " + index);
             }
         }
         return null;
