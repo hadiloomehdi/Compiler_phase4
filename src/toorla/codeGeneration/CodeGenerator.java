@@ -466,6 +466,8 @@ public class CodeGenerator extends Visitor<Void> {
     public Void visit(MethodDeclaration methodDeclaration) {
         SymbolTable.reset();
         SymbolTable.pushFromQueue();
+        for (ParameterDeclaration arg : methodDeclaration.getArgs())
+            arg.accept(this);
         String access,paramType= "",returnType;
         if (methodDeclaration.getAccessModifier() == AccessModifier.ACCESS_MODIFIER_PRIVATE )
             access = "praivate";
@@ -499,11 +501,10 @@ public class CodeGenerator extends Visitor<Void> {
 
     public int getIndexLocalVar(String localVarName) {
         try {
-//            SymbolTable.top().print();
             SymbolTableItem item = SymbolTable.top().get("var_" + localVarName);
             return item.getDefinitionNumber();
         } catch (Exception exc) {
-//            exc.printStackTrace();
+            exc.printStackTrace();
         }
         return -1;
     }
@@ -520,7 +521,6 @@ public class CodeGenerator extends Visitor<Void> {
         }
         else {
             int index = getIndexLocalVar(identifier.getName());
-//            System.out.println(index);
             Type type = identifier.accept(getType);
             if (hasRefrence(type))
                 instructionList.add("aload " + index);
@@ -633,8 +633,9 @@ public class CodeGenerator extends Visitor<Void> {
 
     public Void visit(Assign assignStat) {
         if (assignStat.getLvalue() instanceof FieldCall) {
-            System.out.println("123");
-            assignStat.getLvalue().accept(this);
+            FieldCall filedCall = (FieldCall)assignStat.getLvalue();
+            filedCall.getInstance().accept(this);
+            assignStat.getRvalue().accept(this);
             Type objType = ((FieldCall)assignStat.getLvalue()).getInstance().accept(getType);
             String objName = getTypeName(objType);
             String fieldName = ((FieldCall)assignStat.getLvalue()).getField().getName();
@@ -642,6 +643,7 @@ public class CodeGenerator extends Visitor<Void> {
             instructionList.add("putfield " + objName + "/" + fieldName + " " + fieldType);
         }
         else if ((assignStat.getLvalue() instanceof Identifier) && identifierIsField(((Identifier)assignStat.getLvalue()).getName())) {
+            assignStat.getRvalue().accept(this);
             String objName = getType.currentClass.getName().getName();
             String fieldName = ((Identifier)assignStat.getLvalue()).getName();
             String fieldType = convertType(assignStat.getLvalue().accept(getType));
