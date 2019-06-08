@@ -437,7 +437,7 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(Not notExpr) {
-        notExpr.accept(this);
+        notExpr.getExpr().accept(this);
         String L1 = "TRUE_" + (lableCounter++);
         String L2 = "FALSE_" + (lableCounter++);
         instructionList.add("ifeq" + L1);
