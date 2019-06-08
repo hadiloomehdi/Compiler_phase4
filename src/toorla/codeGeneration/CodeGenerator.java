@@ -45,6 +45,7 @@ import java.util.Stack;
 
 public class CodeGenerator extends Visitor<Void> {
     private FileWriter fw;
+    private String mainClass;
     private ArrayList<String> instructionList = new ArrayList<>();
     private int lableCounter = 0;
     private ExpressionTypeExtractor getType;
@@ -191,6 +192,7 @@ public class CodeGenerator extends Visitor<Void> {
 
     @Override
     public Void visit(EntryClassDeclaration entryClassDeclaration) {
+        mainClass = entryClassDeclaration.getName().getName();
         this.visit((ClassDeclaration) entryClassDeclaration);
         return null;
     }
@@ -262,6 +264,40 @@ public class CodeGenerator extends Visitor<Void> {
         }
     }
 
+    public void makeRunner(){
+        try {
+            File file = new File("./src/toorla/artifact/Runner.j");
+            boolean fvar = file.createNewFile();
+//            if (fvar){
+//                System.out.println("File has been created successfully");
+//            }
+//            else{
+//                System.out.println("File already present at the specified location");
+//            }
+            fw = new FileWriter("./src/toorla/artifact/Runner.j");
+            fw.write(".class public Runner\n");
+            fw.write(".super java/lang/Object\n");
+            fw.write(".method public <init>()V\n");
+            fw.write("aload_0\n");
+            fw.write("invokespecial java/lang/Object/<init>()V\n");
+            fw.write("return\n");
+            fw.write(".end method\n");
+            fw.write(".method public static main([Ljava/lang/String;)V\n");
+            fw.write(".limit stack 1000\n");
+            fw.write(".limit locals 100\n");
+            fw.write("new " + mainClass + "\n");
+            fw.write("dup\n");
+            fw.write("invokespecial " + mainClass+"/<init>()V\n");
+            fw.write("invokevirtual "+ mainClass+"/main()I\n");
+            fw.write("istore 1\n");
+            fw.write("return\n");
+            fw.write(".end method\n");
+            fw.close();
+        }catch (IOException e){
+
+        }
+    }
+
     @Override
     public Void visit(Program program) {
         SymbolTable.pushFromQueue();
@@ -269,6 +305,7 @@ public class CodeGenerator extends Visitor<Void> {
         for (ClassDeclaration cd : program.getClasses()) {
             cd.accept(this);
         }
+        makeRunner();
         SymbolTable.pop();
         return null;
     }
@@ -566,7 +603,7 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(NotEquals notEquals) {//////////////////////////////////////////////////////////////////////////nnd work
+    public Void visit(NotEquals notEquals) {
         Not not = new Not(new Equals(notEquals.getLhs(),notEquals.getRhs()));
         not.accept(this);
         return null;
