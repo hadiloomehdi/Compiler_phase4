@@ -1,6 +1,5 @@
 package toorla.codeGeneration;
 
-//import sun.tools.java.ClassType;
 import toorla.ast.Program;
 import toorla.ast.declaration.classDecs.ClassDeclaration;
 import toorla.ast.declaration.classDecs.EntryClassDeclaration;
@@ -93,10 +92,12 @@ public class CodeGenerator extends Visitor<Void> {
         breaks.push(exit);
         continues.push(nStart);
         instructionList.add("goto " + nStart);
+
         instructionList.add(nStmt + ":");
         SymbolTable.pushFromQueue();
         whileStat.body.accept(this);
         SymbolTable.pop();
+
         instructionList.add(nStart + ":");
         whileStat.expr.accept(this);
 
@@ -439,16 +440,46 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(Identifier identifier) {////////////////////////////////////////////////////////////////////////////need work
-//        try {
-//            VarSymbolTableItem var = (VarSymbolTableItem)(SymbolTable.top().get("var_" + identifier.getName()));
-//            if (var.mustBeUsedAfterDef()){
-//                var.getDefinitionNumber();
-//            }
-//
-//        }catch (Exception e){
-//
-//        }
+    public boolean identifierIsField(String varName) {
+        try {
+            SymbolTableItem item = SymbolTable.top().get(varName);
+            if (item instanceof FieldSymbolTableItem)
+                return true;
+            else
+                return false;
+        } catch (Exception exc) {
+            // dont occur
+        }
+        return false;
+    }
+
+    public int getIndexLocalVar(String localVarName) {
+        try {
+            return ((LocalVariableSymbolTableItem) SymbolTable.top().get(localVarName)).getIndex();
+        } catch (Exception exc) {
+            // dont occur
+        }
+        return -1;
+    }
+
+    public Void visit(Identifier identifier) {///////////////need work
+        if (identifierIsField(identifier.getName())) {
+            try {
+                Type fieldType = ((FieldSymbolTableItem) SymbolTable.top().get(identifier.getName())).getFieldType();
+                String fieldTypeName = convertType(fieldType);
+                instructionList.add("getfield " + getType.currentClass.getName().getName() + "/" + identifier.getName() + " " + fieldTypeName);
+            } catch (Exception exp) {
+                // dont occur
+            }
+        }
+        else {
+            int index = getIndexLocalVar(identifier.getName());
+            Type type = identifier.accept(getType);
+            if (hasRefrence(type))
+                instructionList.add("aload_" + index);
+            else
+                instructionList.add("iload_" + index);
+        }
         return null;
     }
 
@@ -525,7 +556,7 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(NotEquals notEquals) {
+    public Void visit(NotEquals notEquals) {//////////////////////////////////////////////////////////////////////////nnd work
         Not not = new Not(new Equals(notEquals.getLhs(),notEquals.getRhs()));
         not.accept(this);
         return null;
@@ -543,28 +574,6 @@ public class CodeGenerator extends Visitor<Void> {
         return !(type instanceof IntType || type instanceof BoolType);
     }
 
-    public boolean identifierIsField(String varName) {
-        try {
-            SymbolTableItem item = SymbolTable.top().get(varName);
-            if (item instanceof FieldSymbolTableItem)
-                return true;
-            else
-                return false;
-        } catch (Exception exc) {
-            // dont occur
-        }
-        return false;////////////////////////////??? return nadasht ?
-    }
-
-    public int getIndexLocalVar(String localVarName) {
-        try {
-            return ((LocalVariableSymbolTableItem) SymbolTable.top().get(localVarName)).getIndex();
-        } catch (Exception exc) {
-            // dont occur
-        }
-        return 0; ////////////////////////////////??? return nadasht ?
-    }
-
     public Void visit(Assign assignStat) {
         if (assignStat.getLvalue() instanceof FieldCall) {
             Type objType = ((FieldCall)assignStat.getLvalue()).getInstance().accept(getType);
@@ -574,7 +583,10 @@ public class CodeGenerator extends Visitor<Void> {
             instructionList.add("putfield " + objName + "/" + fieldName + " " + fieldType);
         }
         else if ((assignStat.getLvalue() instanceof Identifier) && identifierIsField(((Identifier)assignStat.getLvalue()).getName())) {
-
+            String objName = getType.currentClass.getName().getName();
+            String fieldName = ((Identifier)assignStat.getLvalue()).getName();
+            String fieldType = convertType(assignStat.getLvalue().accept(getType));
+            instructionList.add("putfield " + objName + "/" + fieldName + " " + fieldType);
         }
         else {
             assignStat.getLvalue().accept(this);

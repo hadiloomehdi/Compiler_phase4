@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 
 public class ExpressionTypeExtractor extends Visitor<Type> {
     private Graph<String> classHierarchy;
-    private ClassDeclaration currentClass;
+    public ClassDeclaration currentClass;
 
     public ExpressionTypeExtractor(Graph<String> classHierarchy) {
         this.classHierarchy = classHierarchy;
