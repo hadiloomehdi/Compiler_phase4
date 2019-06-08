@@ -354,9 +354,9 @@ public class CodeGenerator extends Visitor<Void> {
         if (equal instanceof IntType || equal instanceof BoolType){
             String L1 = "TRUE_" + (lableCounter++);
             String L2 = "FALSE_" + (lableCounter++);
-            instructionList.add("ifeq" + L1);
+            instructionList.add("ifeq " + L1);
             instructionList.add("iconst_0");
-            instructionList.add("goto" + L2);
+            instructionList.add("goto " + L2);
             instructionList.add(L1 + ":");
             instructionList.add("iconst_1");
             instructionList.add(L2 + ":");
@@ -440,9 +440,9 @@ public class CodeGenerator extends Visitor<Void> {
         notExpr.getExpr().accept(this);
         String L1 = "TRUE_" + (lableCounter++);
         String L2 = "FALSE_" + (lableCounter++);
-        instructionList.add("ifeq" + L1);
+        instructionList.add("ifeq " + L1);
         instructionList.add("iconst_0");
-        instructionList.add("goto" + L2);
+        instructionList.add("goto " + L2);
         instructionList.add(L1 + ":");
         instructionList.add("iconst_1");
         instructionList.add(L2 + ":");
@@ -671,12 +671,12 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(Break breakStat) {
-        instructionList.add("goto" + breaks.peek());
+        instructionList.add("goto " + breaks.peek());
         return null;
     }
 
     public Void visit(Continue continueStat) {
-        instructionList.add("goto" + continues.peek());
+        instructionList.add("goto " + continues.peek());
         return null;
     }
 

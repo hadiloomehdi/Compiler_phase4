@@ -5,7 +5,7 @@ class test1:
     end
     function g() returns string:
         self.gg = new int[5];
-        self.gg[1] = 1387;
+        self.gg[1] = 13;
         //print("1");
         return "shakiba khar khob ast";
     end
