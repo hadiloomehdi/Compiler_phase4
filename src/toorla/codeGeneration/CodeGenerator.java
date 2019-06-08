@@ -136,7 +136,6 @@ public class CodeGenerator extends Visitor<Void> {
         SymbolTable.pushFromQueue();
         getType.setCurrentClass(classDeclaration);
         try {
-//            System.out.println(classDeclaration.getName().getName());
             File file = new File("./src/toorla/artifact/" + classDeclaration.getName().getName() +".j");
             boolean fvar = file.createNewFile();
             if (fvar){
@@ -487,7 +486,7 @@ public class CodeGenerator extends Visitor<Void> {
 
     public boolean identifierIsField(String varName) {
         try {
-            SymbolTableItem item = SymbolTable.top().get(varName);
+            SymbolTableItem item = SymbolTable.top().get("var_" + varName);
             if (item instanceof FieldSymbolTableItem)
                 return true;
             else
@@ -512,7 +511,7 @@ public class CodeGenerator extends Visitor<Void> {
     public Void visit(Identifier identifier) {///////////////need work
         if (identifierIsField(identifier.getName())) {
             try {
-                Type fieldType = ((FieldSymbolTableItem) SymbolTable.top().get(identifier.getName())).getFieldType();
+                Type fieldType = ((FieldSymbolTableItem) SymbolTable.top().get("var_" + identifier.getName())).getFieldType();
                 String fieldTypeName = convertType(fieldType);
                 instructionList.add("getfield " + getType.currentClass.getName().getName() + "/" + identifier.getName() + " " + fieldTypeName);
             } catch (Exception exp) {
@@ -537,7 +536,10 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(IntValue intValue) {
-        instructionList.add("bipush " + intValue.getConstant());
+        if (intValue.getConstant()<=5)
+            instructionList.add("iconst_" + intValue.getConstant());
+        else
+            instructionList.add("bipush " + intValue.getConstant());
         return null;
     }
 
@@ -600,8 +602,14 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(ArrayCall arrayCall) {
+        Type insType = arrayCall.getInstance().accept(getType);
+        Type singleType = ((ArrayType)insType).getSingleType();
         arrayCall.getInstance().accept(this);
         arrayCall.getIndex().accept(this);
+        if (hasRefrence(singleType))
+            instructionList.add("aaload");
+        else
+            instructionList.add("iaload");
         return null;
     }
 
@@ -625,6 +633,8 @@ public class CodeGenerator extends Visitor<Void> {
 
     public Void visit(Assign assignStat) {
         if (assignStat.getLvalue() instanceof FieldCall) {
+            System.out.println("123");
+            assignStat.getLvalue().accept(this);
             Type objType = ((FieldCall)assignStat.getLvalue()).getInstance().accept(getType);
             String objName = getTypeName(objType);
             String fieldName = ((FieldCall)assignStat.getLvalue()).getField().getName();
@@ -638,19 +648,20 @@ public class CodeGenerator extends Visitor<Void> {
             instructionList.add("putfield " + objName + "/" + fieldName + " " + fieldType);
         }
         else {
-//            assignStat.getLvalue().accept(this);
-            assignStat.getRvalue().accept(this);
             Type RType = assignStat.getRvalue().accept(getType);
             if (assignStat.getLvalue() instanceof ArrayCall) {
+                ArrayCall arrayCall = (ArrayCall)assignStat.getLvalue();
+                arrayCall.getInstance().accept(this);
+                arrayCall.getIndex().accept(this);
+                assignStat.getRvalue().accept(this);
                 if (hasRefrence(RType))
                     instructionList.add("aastore");
                 else
                     instructionList.add("iastore");
             }
             else {
-//                instructionList.add("Debug");
+                assignStat.getRvalue().accept(this);
                 int index = getIndexLocalVar(((Identifier)assignStat.getLvalue()).getName());
-//                System.out.println(index);
                 if (hasRefrence(RType))
                     instructionList.add("astore " + index);
                 else
