@@ -150,9 +150,11 @@ public class CodeGenerator extends Visitor<Void> {
             System.out.println("Exception Occurred:");
             e.printStackTrace();
         }
-        try{
-            fw=new FileWriter("./src/toorla/artifact/" + classDeclaration.getName().getName() +".j");
-            fw.write(".class public " + classDeclaration.getName().getName() + "\n");
+        try {
+            fw = new FileWriter("./src/toorla/artifact/" + classDeclaration.getName().getName() + ".j");
+        }catch (Exception e) {
+        }
+            instructionList.add(".class public " + classDeclaration.getName().getName() );
             String father;
 //            System.out.println(classDeclaration.getParentName());
             if(classDeclaration.getParentName().getName() == null) {
@@ -160,27 +162,27 @@ public class CodeGenerator extends Visitor<Void> {
             }
             else
                 father = classDeclaration.getParentName().getName();
-            fw.write(".super " + father + "\n");
+            instructionList.add(".super " + father );
             //field
-            for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
-                if (cmd instanceof FieldDeclaration)
-                    cmd.accept(this);
+        for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
+            if (cmd instanceof FieldDeclaration) {
+                cmd.accept(this);
+            }
             // constructor
-            fw.write(".method public <init>()V \n");
-            fw.write("aload_0\n");
-            fw.write("invokespecial " + father +"/<init>()V\n");
-            fw.write("return\n");
-            fw.write(".end method\n");
+            instructionList.add(".method public <init>()V");
+            instructionList.add("aload_0");
+            instructionList.add("invokespecial " + father +"/<init>()V");
+            instructionList.add("return");
+            instructionList.add(".end method");
 
-        }catch(Exception e){
 
-        }
-        instructionList.clear();
+
 
         for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
             if (cmd instanceof MethodDeclaration)
                 cmd.accept(this);
         writeInstructions();
+        instructionList.clear();
         try{
             fw.close();
         }catch (IOException e){

@@ -12,7 +12,7 @@ public class LocalVariableSymbolTableItem extends VarSymbolTableItem {
         this.name = name;
         this.type = new AnonymousType();
         this.index = index;
-        System.out.println(index);
+//        System.out.println(index);
     }
 
     public int getIndex() {

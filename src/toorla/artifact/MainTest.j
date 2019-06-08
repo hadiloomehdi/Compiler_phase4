@@ -1,6 +1,7 @@
 .class public MainTest
 .super Any
-.method public <init>()V 
+.field public x I
+.method public <init>()V
 aload_0
 invokespecial Any/<init>()V
 return
