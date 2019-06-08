@@ -49,8 +49,8 @@ public class CodeGenerator extends Visitor<Void> {
     private ArrayList<String> instructionList = new ArrayList<>();
     private int lableCounter = 0;
     private ExpressionTypeExtractor getType;
-    private Stack <String> breaks;
-    private Stack <String> continues;
+    private Stack <String> breaks = new Stack<>();
+    private Stack <String> continues = new Stack<>();
     public CodeGenerator(ExpressionTypeExtractor getType) {
         this.getType = getType;
     }

@@ -1,9 +1,48 @@
-entry class MainTest :
-    public field x int;
-    public function main() returns int:
-        var a = new int[2];
-        var b = new int[2];
-        print("hello");
+class test1:
+    field gg int[];
+    function f() returns string:
+        return g();
+    end
+    function g() returns string:
+        self.gg = new int[5];
+        self.gg[1] = 1387;
+        //print("1");
+        return "shakiba khar khob ast";
+    end
+    public field isInF bool;
+    function loop(a:int) returns bool:
+        var i = 0;
+        while(i < 10) begin
+            if(i == a)
+                break;
+            print(i);
+            i++;
+        end
+        print(i);
+        if(i <> 10)
+            return false;
+        else
+            return true;
+    end
+end
+
+entry class test2:
+    function main() returns int:
+        var t = new test1();
+        var str = t.f();
+        print(str);
+        if(t.loop(12)) begin
+            print("loop was true");
+            print(78);
+        end
+        else;
+
+        if(t.loop(5) && str == "shakiba mehraban ast" )
+            print("to nabayad inja biay");
+        else if(str == "shakiba khar khob ast" && !t.loop(5))
+            print("ebart bas dorosti ast");
+
         return 0;
     end
 end
+
