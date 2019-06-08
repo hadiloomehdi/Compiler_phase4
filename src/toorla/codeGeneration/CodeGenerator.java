@@ -1,6 +1,6 @@
 package toorla.codeGeneration;
 
-import sun.tools.java.ClassType;
+//import sun.tools.java.ClassType;
 import toorla.ast.Program;
 import toorla.ast.declaration.classDecs.ClassDeclaration;
 import toorla.ast.declaration.classDecs.EntryClassDeclaration;
@@ -124,12 +124,13 @@ public class CodeGenerator extends Visitor<Void> {
         SymbolTable.pushFromQueue();
         getType.setCurrentClass(classDeclaration);
         try {
-            File file = new File("../artifact" + classDeclaration.getName().getName() +".j");
+            File file = new File("./src/toorla/artifact/s" + classDeclaration.getName().getName() +".j");
             boolean fvar = file.createNewFile();
             if (fvar){
                 System.out.println("File has been created successfully");
             }
             else{
+                System.out.println(classDeclaration.getName().getName() );
                 System.out.println("File already present at the specified location");
             }
         } catch (IOException e) {
@@ -137,7 +138,7 @@ public class CodeGenerator extends Visitor<Void> {
             e.printStackTrace();
         }
         try{
-            fw=new FileWriter("../artifact" + classDeclaration.getName().getName() +".j");
+            fw=new FileWriter("./src/toorla/artifact/" + classDeclaration.getName().getName() +".j");
             fw.write(".class public" + classDeclaration.getName().getName());
             String father;
             if(classDeclaration.getParentName() == null) {
@@ -221,7 +222,7 @@ public class CodeGenerator extends Visitor<Void> {
 
     void makeAnyClass() {
         try {
-            File file = new File("../artifact/Any.j");
+            File file = new File("./src/toorla/artifact/Any.j");
             boolean fvar = file.createNewFile();
             if (fvar){
                 System.out.println("File has been created successfully");
@@ -234,7 +235,7 @@ public class CodeGenerator extends Visitor<Void> {
             e.printStackTrace();
         }
         try{
-            fw = new FileWriter("../artifact/Any.j");
+            fw = new FileWriter("./src/toorla/artifact/Any.j");
             fw.write(".class public Any");
             fw.write(".super java/lang/Object");
             // constructor
@@ -309,10 +310,10 @@ public class CodeGenerator extends Visitor<Void> {
             instructionList.add(L2 + ":");
         }
         else if (equal instanceof StringType){
-            instructionList.add("invokevirtual java/lang/String.equals(Ljava/lang/String;Ljava/lang/String)Z");////////// .equal or /equal?????
+            instructionList.add("invokevirtual java/lang/String.equals(Ljava/lang/String;)Z");////////// .equal or /equal?????
         }
         else if (equal instanceof UserDefinedType){
-            instructionList.add("invokevirtual java/lang/Object.equals(Ljava/lang/Object;Ljava/lang/Object;)Z");
+            instructionList.add("invokevirtual java/lang/Object.equals(Ljava/lang/Object;)Z");
         }
         else {//////equal instancceof ArrayType
             instructionList.add("invokevirtual java/util/Arrays.equals([Ljava/util/Arrays;[Ljava/util/Arrays)Z");
@@ -537,6 +538,7 @@ public class CodeGenerator extends Visitor<Void> {
         } catch (Exception exc) {
             // dont occur
         }
+        return false;////////////////////////////??? return nadasht ?
     }
 
     public int getIndexLocalVar(String localVarName) {
@@ -545,6 +547,7 @@ public class CodeGenerator extends Visitor<Void> {
         } catch (Exception exc) {
             // dont occur
         }
+        return 0; ////////////////////////////////??? return nadasht ?
     }
 
     public Void visit(Assign assignStat) {

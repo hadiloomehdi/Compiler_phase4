@@ -24,6 +24,6 @@ public class ToorlaCompiler {
             System.exit(1);
         System.out.println("No error detected;");
         CodeGenerator codeGenerator = new CodeGenerator(new ExpressionTypeExtractor(nameAnalyzer.getClassHierarchy()));
-
+        toorlaASTCode.accept(codeGenerator);
     }
 }
