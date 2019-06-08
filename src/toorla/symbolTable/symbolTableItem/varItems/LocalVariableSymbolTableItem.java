@@ -1,5 +1,6 @@
 package toorla.symbolTable.symbolTableItem.varItems;
 
+import toorla.symbolTable.SymbolTable;
 import toorla.types.AnonymousType;
 import toorla.types.Type;
 
@@ -11,6 +12,7 @@ public class LocalVariableSymbolTableItem extends VarSymbolTableItem {
         this.name = name;
         this.type = new AnonymousType();
         this.index = index;
+        System.out.println(index);
     }
 
     public int getIndex() {

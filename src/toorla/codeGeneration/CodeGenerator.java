@@ -111,7 +111,8 @@ public class CodeGenerator extends Visitor<Void> {
     @Override
     public Void visit(LocalVarDef localVarDef) {
         // initialization
-
+        Assign assign = new Assign(localVarDef.getLocalVarName(), localVarDef.getInitialValue());
+        assign.accept(this);
         SymbolTable.define();
         return null;
     }
@@ -205,10 +206,7 @@ public class CodeGenerator extends Visitor<Void> {
 
     @Override
     public Void visit(FieldDeclaration fieldDeclaration) {
-            instructionList.add(".field public " + fieldDeclaration.getIdentifier().getName() + " " + convertType(fieldDeclaration.getType()));
-//            instructionList.add();
-//            fw.write();
-
+        instructionList.add(".field public " + fieldDeclaration.getIdentifier().getName() + " " + convertType(fieldDeclaration.getType()));
         return null;
 
     }
@@ -456,7 +454,9 @@ public class CodeGenerator extends Visitor<Void> {
 
     public int getIndexLocalVar(String localVarName) {
         try {
-            return ((LocalVariableSymbolTableItem) SymbolTable.top().get(localVarName)).getIndex();
+            SymbolTableItem item = SymbolTable.top().get(localVarName);
+            System.out.println(((LocalVariableSymbolTableItem)item).getVarType());
+            return ((LocalVariableSymbolTableItem)SymbolTable.top().get(localVarName)).getIndex();
         } catch (Exception exc) {
             // dont occur
         }
@@ -475,6 +475,7 @@ public class CodeGenerator extends Visitor<Void> {
         }
         else {
             int index = getIndexLocalVar(identifier.getName());
+//            System.out.println(index);
             Type type = identifier.accept(getType);
             if (hasRefrence(type))
                 instructionList.add("aload " + index);
@@ -590,7 +591,7 @@ public class CodeGenerator extends Visitor<Void> {
             instructionList.add("putfield " + objName + "/" + fieldName + " " + fieldType);
         }
         else {
-            assignStat.getLvalue().accept(this);
+//            assignStat.getLvalue().accept(this);
             assignStat.getRvalue().accept(this);
             Type RType = assignStat.getRvalue().accept(getType);
             if (assignStat.getLvalue() instanceof ArrayCall) {
@@ -600,7 +601,9 @@ public class CodeGenerator extends Visitor<Void> {
                     instructionList.add("iastore");
             }
             else {
+                instructionList.add("Debug");
                 int index = getIndexLocalVar(((Identifier)assignStat.getLvalue()).getName());
+                System.out.println(index);
                 if (hasRefrence(RType))
                     instructionList.add("astore " + index);
                 else
