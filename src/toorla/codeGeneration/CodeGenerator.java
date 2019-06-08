@@ -258,6 +258,7 @@ public class CodeGenerator extends Visitor<Void> {
 
     @Override
     public Void visit(Program program) {
+        SymbolTable.pushFromQueue();
         makeAnyClass();
         for (ClassDeclaration cd : program.getClasses()) {
             cd.accept(this);
@@ -455,10 +456,10 @@ public class CodeGenerator extends Visitor<Void> {
     public int getIndexLocalVar(String localVarName) {
         try {
             SymbolTableItem item = SymbolTable.top().get(localVarName);
-            System.out.println(((LocalVariableSymbolTableItem)item).getVarType());
+            System.out.println(((FieldSymbolTableItem)item).getAccessModifier());
             return ((LocalVariableSymbolTableItem)SymbolTable.top().get(localVarName)).getIndex();
         } catch (Exception exc) {
-            // dont occur
+            exc.printStackTrace();
         }
         return -1;
     }

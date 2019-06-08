@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c4ea4767-ff7f-452d-ad50-611ee45daf56" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample.in" beforeDir="false" afterPath="$PROJECT_DIR$/sample.in" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/toorla/codeGeneration/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/toorla/codeGeneration/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/toorla/symbolTable/symbolTableItem/varItems/LocalVariableSymbolTableItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/toorla/symbolTable/symbolTableItem/varItems/LocalVariableSymbolTableItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/toorla/symbolTable/symbolTableItem/varItems/LocalVariableSymbolTableItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/toorla/symbolTable/symbolTableItem/varItems/LocalVariableSymbolTableItem.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,18 +15,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/toorla/codeGeneration/CodeGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="456" column="71" selection-start-line="456" selection-start-column="71" selection-end-line="456" selection-end-column="71" />
+            <state relative-caret-position="197">
+              <caret line="260" column="33" selection-start-line="260" selection-start-column="20" selection-end-line="260" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2445#2446#0" expanded="true" />
                 <element signature="e#2483#2484#0" expanded="true" />
                 <element signature="e#19517#19518#0" expanded="true" />
                 <element signature="e#19594#19595#0" expanded="true" />
-                <element signature="e#22531#22532#0" expanded="true" />
+                <element signature="e#22545#22546#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -71,8 +70,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/toorla/artifact/MainTest.j">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="12" lean-forward="true" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+            <state>
+              <caret lean-forward="true" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/toorla/typeChecker/TypeChecker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="257">
+              <caret line="270" column="36" lean-forward="true" selection-start-line="270" selection-start-column="36" selection-end-line="270" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -99,12 +107,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>define()</find>
-      <find>++</find>
-      <find>mustBeUsedAfterDefCount</find>
-      <find>getDefinitionNumber</find>
-      <find>(Return</find>
-      <find>ClassDec</find>
       <find>define</find>
       <find>define(</find>
       <find>reset(</find>
@@ -127,8 +129,14 @@
       <find>Assign</find>
       <find>-1</find>
       <find>(identifier</find>
-      <find>(Assign</find>
       <find>(Identifi</find>
+      <find>(Assign</find>
+      <find>pushFromQ</find>
+      <find>(Prog</find>
+      <find>Program</find>
+      <find>pushFromQueue</find>
+      <find>Push</find>
+      <find>PushFro</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -216,6 +224,13 @@
               <item name="symbolTableItem" type="462c0819:PsiDirectoryNode" />
               <item name="varItems" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="phase3-provided" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Compiler_phase4" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="toorla" type="462c0819:PsiDirectoryNode" />
+              <item name="typeChecker" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -226,7 +241,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1559999906133" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1560000513423" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -377,11 +392,18 @@
       <option name="project" value="LOCAL" />
       <updated>1559997578650</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="LocalVarDef">
+      <created>1559999957686</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1559999957686</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58516000" />
+    <option name="totallyTimeSpent" value="59145000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="27" width="1853" height="1053" extended-state="6" />
@@ -398,7 +420,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3293348" />
       <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26608506" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3991276" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.32497275" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -438,20 +460,21 @@
     <MESSAGE value="complete Assign and relative functions" />
     <MESSAGE value="merge" />
     <MESSAGE value="Fields then methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fields then methods" />
+    <MESSAGE value="LocalVarDef" />
+    <option name="LAST_COMMIT_MESSAGE" value="LocalVarDef" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/toorla/codeGeneration/CodeGenerator.java</url>
-          <line>458</line>
+          <line>459</line>
           <properties />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/toorla/codeGeneration/CodeGenerator.java</url>
-          <line>456</line>
+          <line>457</line>
           <properties />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
@@ -634,13 +657,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/toorla/typeChecker/TypeChecker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="61" column="13" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ToorlaCompiler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -728,25 +744,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/toorla/artifact/MainTest.j">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="12" lean-forward="true" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/toorla/codeGeneration/CodeGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="456" column="71" selection-start-line="456" selection-start-column="71" selection-end-line="456" selection-end-column="71" />
+        <state relative-caret-position="197">
+          <caret line="260" column="33" selection-start-line="260" selection-start-column="20" selection-end-line="260" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2445#2446#0" expanded="true" />
             <element signature="e#2483#2484#0" expanded="true" />
             <element signature="e#19517#19518#0" expanded="true" />
             <element signature="e#19594#19595#0" expanded="true" />
-            <element signature="e#22531#22532#0" expanded="true" />
+            <element signature="e#22545#22546#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/toorla/artifact/MainTest.j">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret lean-forward="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/toorla/typeChecker/TypeChecker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="270" column="36" lean-forward="true" selection-start-line="270" selection-start-column="36" selection-end-line="270" selection-end-column="36" />
         </state>
       </provider>
     </entry>
