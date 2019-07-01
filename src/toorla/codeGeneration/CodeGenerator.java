@@ -22,6 +22,7 @@ import toorla.ast.statement.returnStatement.Return;
 import toorla.compileErrorException.nameErrors.*;
 import toorla.symbolTable.SymbolTable;
 import toorla.symbolTable.exceptions.ItemAlreadyExistsException;
+import toorla.symbolTable.exceptions.ItemNotFoundException;
 import toorla.symbolTable.symbolTableItem.ClassSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.MethodSymbolTableItem;
 import toorla.symbolTable.symbolTableItem.SymbolTableItem;
@@ -350,6 +351,8 @@ public class CodeGenerator extends Visitor<Void> {
         equalsExpr.getLhs().accept(this);
         equalsExpr.getRhs().accept(this);
         Type equal = equalsExpr.getLhs().accept(getType);
+        SymbolTable.top().print();
+        System.out.println("wwww");
         if (equal instanceof IntType || equal instanceof BoolType){
             String L1 = "TRUE_" + (lableCounter++);
             String L2 = "FALSE_" + (lableCounter++);
@@ -361,13 +364,14 @@ public class CodeGenerator extends Visitor<Void> {
             instructionList.add(L2 + ":");
         }
         else if (equal instanceof StringType){
-            instructionList.add("invokevirtual java/lang/String.equals(Ljava/lang/String;)Z");
+            instructionList.add("invokevirtual java/lang/String/equals(Ljava/lang/Object;)Z");
         }
         else if (equal instanceof UserDefinedType){
             instructionList.add("invokevirtual java/lang/Object.equals(Ljava/lang/Object;)Z");
         }
         else {//////equal instancceof ArrayType
-            instructionList.add("invokevirtual java/util/Arrays.equals([Ljava/util/Arrays;[Ljava/util/Arrays)Z");
+            System.out.println( equalsExpr.getLhs()+ "\nthis\n"+equal);
+            instructionList.add("invokevirtual java/util/Arrays/equals(L[" + equal+ "L[" +equal+ ")Z");
         }
 
 
@@ -448,13 +452,27 @@ public class CodeGenerator extends Visitor<Void> {
         return null;
     }
 
-    public Void visit(MethodCall methodCall) {
+    public Void visit(MethodCall methodCall) { /////////////////////////////////////////////need checke
         methodCall.getInstance().accept(this);
         String args = "";
-        for (Expression ex : methodCall.getArgs()) {
-            ex.accept(this);
-            args +=  convertType(ex.accept(getType));
+        Type type = methodCall.getInstance().accept(getType);
+        try {
+            SymbolTable symbolT = ((ClassSymbolTableItem) SymbolTable.top().get("class_" + ((UserDefinedType)type).getClassDeclaration().getName().getName())).getSymbolTable();
+            SymbolTableItem symbolTI = symbolT.get("method_" + methodCall.getMethodName().getName());
+
+            for (Type t : ((MethodSymbolTableItem)symbolTI).getArgumentsTypes()) {
+//                t.accept(this);
+                args +=  convertType(t);
+            }
+        }catch (ItemNotFoundException e){
+
         }
+//
+//        String args = "";
+//        for (Expression ex : methodCall.getArgs()) {
+//            ex.accept(this);
+//            args +=  convertType(ex.accept(getType));
+//        }
         String methodName = methodCall.getMethodName().getName();
         String obj = ((UserDefinedType)methodCall.getInstance().accept(getType)).getClassDeclaration().getName().getName();
         String returnTupe = convertType(methodCall.accept(getType));
@@ -470,7 +488,7 @@ public class CodeGenerator extends Visitor<Void> {
             arg.accept(this);
         String access,paramType= "",returnType;
         if (methodDeclaration.getAccessModifier() == AccessModifier.ACCESS_MODIFIER_PRIVATE )
-            access = "praivate";
+            access = "private";
         else
             access = "public";
         for (ParameterDeclaration arg : methodDeclaration.getArgs())
@@ -512,6 +530,7 @@ public class CodeGenerator extends Visitor<Void> {
     public Void visit(Identifier identifier) {///////////////need work
         if (identifierIsField(identifier.getName())) {
             try {
+                instructionList.add("aload 0");
                 Type fieldType = ((FieldSymbolTableItem) SymbolTable.top().get("var_" + identifier.getName())).getFieldType();
                 String fieldTypeName = convertType(fieldType);
                 instructionList.add("getfield " + getType.currentClass.getName().getName() + "/" + identifier.getName() + " " + fieldTypeName);
@@ -547,7 +566,7 @@ public class CodeGenerator extends Visitor<Void> {
         if (type instanceof IntType)
             return "int";
         if (type instanceof BoolType)
-            return "bool";
+            return "boolean";
         if (type instanceof UserDefinedType)
             return ((UserDefinedType)type).getClassDeclaration().getName().getName();
         if (type instanceof StringType)
@@ -632,10 +651,12 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(Assign assignStat) {
+        System.out.println(assignStat.getLvalue().toString());
         if (assignStat.getLvalue() instanceof FieldCall) {
-            FieldCall filedCall = (FieldCall)assignStat.getLvalue();
-            filedCall.getInstance().accept(this);
+            FieldCall fieldCall = (FieldCall)assignStat.getLvalue();
+            fieldCall.getInstance().accept(this);
             assignStat.getRvalue().accept(this);
+            System.out.println(fieldCall.getInstance().accept(getType));
             Type objType = ((FieldCall)assignStat.getLvalue()).getInstance().accept(getType);
             String objName = getTypeName(objType);
             String fieldName = ((FieldCall)assignStat.getLvalue()).getField().getName();
@@ -643,6 +664,7 @@ public class CodeGenerator extends Visitor<Void> {
             instructionList.add("putfield " + objName + "/" + fieldName + " " + fieldType);
         }
         else if ((assignStat.getLvalue() instanceof Identifier) && identifierIsField(((Identifier)assignStat.getLvalue()).getName())) {
+            instructionList.add("aload 0");
             assignStat.getRvalue().accept(this);
             String objName = getType.currentClass.getName().getName();
             String fieldName = ((Identifier)assignStat.getLvalue()).getName();
