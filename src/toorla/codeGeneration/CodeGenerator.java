@@ -539,7 +539,7 @@ public class CodeGenerator extends Visitor<Void> {
         if (intValue.getConstant()<=5)
             instructionList.add("iconst_" + intValue.getConstant());
         else
-            instructionList.add("bipush " + intValue.getConstant());
+            instructionList.add("sipush " + intValue.getConstant());
         return null;
     }
 
