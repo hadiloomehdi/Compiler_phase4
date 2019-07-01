@@ -1,8 +1,9 @@
 entry class test1:
     field g int;
     function main() returns int:
-        g = 5;
-        print(g);
+        bool b = true;
+        a[0] = 10 ;
+        print(a);
         return 1;
     end
 

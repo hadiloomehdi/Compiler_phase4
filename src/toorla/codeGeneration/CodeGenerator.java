@@ -80,6 +80,7 @@ public class CodeGenerator extends Visitor<Void> {
         conditional.getElseStatement().accept(this);
         SymbolTable.pop();
         instructionList.add(nAfter + ":");
+        instructionList.add("nop");
 
         return null;
 
@@ -105,6 +106,7 @@ public class CodeGenerator extends Visitor<Void> {
 
         instructionList.add("ifne " +  nStmt);
         instructionList.add(exit + ":");
+        instructionList.add("nop");
         breaks.pop();
         continues.pop();
         return null;
