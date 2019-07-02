@@ -145,8 +145,6 @@ public class CodeGenerator extends Visitor<Void> {
 //                System.out.println("File has been created successfully");
             }
             else{
-//                System.out.println(classDeclaration.getName().getName() );
-//                System.out.println("File already present at the specified location");
             }
         } catch (IOException e) {
             System.out.println("Exception Occurred:");
@@ -156,33 +154,37 @@ public class CodeGenerator extends Visitor<Void> {
             fw = new FileWriter("./src/toorla/artifact/" + classDeclaration.getName().getName() + ".j");
         }catch (Exception e) {
         }
-            instructionList.add(".class public " + classDeclaration.getName().getName() );
-            String father;
+        instructionList.add(".class public " + classDeclaration.getName().getName() );
+        String father;
 //            System.out.println(classDeclaration.getParentName());
-            if(classDeclaration.getParentName().getName() == null) {
-                father = "Any";
-            }
-            else
-                father = classDeclaration.getParentName().getName();
-            instructionList.add(".super " + father );
-            //field
+        if(classDeclaration.getParentName().getName() == null) {
+            father = "Any";
+        }
+        else
+            father = classDeclaration.getParentName().getName();
+        instructionList.add(".super " + father );
+        //field
         for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
-            if (cmd instanceof FieldDeclaration) {
+            if (cmd instanceof FieldDeclaration)
                 cmd.accept(this);
+        // constructor
+        instructionList.add(".method public <init>()V");
+        instructionList.add("aload_0");
+        instructionList.add("invokespecial " + father +"/<init>()V");
+        for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
+            if (cmd instanceof FieldDeclaration && ((FieldDeclaration)cmd).getType() instanceof StringType) {
+                instructionList.add("aload_0");
+                instructionList.add("ldc \"\" ");
+                instructionList.add("putfield " + classDeclaration.getName().getName() + "/" + ((FieldDeclaration)cmd).getIdentifier().getName() + " " + "Ljava/lang/String;");
             }
-            // constructor
-            instructionList.add(".method public <init>()V");
-            instructionList.add("aload_0");
-            instructionList.add("invokespecial " + father +"/<init>()V");
-            instructionList.add("return");
-            instructionList.add(".end method");
+        instructionList.add("return");
+        instructionList.add(".end method");
 
-
-
-
+        //method
         for (ClassMemberDeclaration cmd : classDeclaration.getClassMembers())
             if (cmd instanceof MethodDeclaration)
                 cmd.accept(this);
+
         writeInstructions();
         instructionList.clear();
         try{
@@ -350,32 +352,40 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(Equals equalsExpr) {
+        System.out.println("1111");
         equalsExpr.getLhs().accept(this);
         equalsExpr.getRhs().accept(this);
-        Type equal = equalsExpr.getLhs().accept(getType);
+        Type lSideType = equalsExpr.getLhs().accept(getType);
         SymbolTable.top().print();
-        System.out.println("wwww");
-        if (equal instanceof IntType || equal instanceof BoolType){
+        if (lSideType instanceof IntType || lSideType instanceof BoolType){
             String L1 = "TRUE_" + (lableCounter++);
             String L2 = "FALSE_" + (lableCounter++);
-            instructionList.add("ifeq " + L1);
+            instructionList.add("if_icmpeq " + L1);
             instructionList.add("iconst_0");
             instructionList.add("goto " + L2);
             instructionList.add(L1 + ":");
             instructionList.add("iconst_1");
             instructionList.add(L2 + ":");
         }
-        else if (equal instanceof StringType){
+        else if (lSideType instanceof StringType){
             instructionList.add("invokevirtual java/lang/String/equals(Ljava/lang/Object;)Z");
         }
-        else if (equal instanceof UserDefinedType){
-            instructionList.add("invokevirtual java/lang/Object.equals(Ljava/lang/Object;)Z");
+        else if (lSideType instanceof UserDefinedType){
+            instructionList.add("invokevirtual java/lang/Object/equals(Ljava/lang/Object;)Z");
         }
         else {//////equal instancceof ArrayType
-            System.out.println( equalsExpr.getLhs()+ "\nthis\n"+equal);
-            instructionList.add("invokevirtual java/util/Arrays/equals(L[" + equal+ "L[" +equal+ ")Z");
-        }
 
+
+            Type singleType = ((ArrayType) lSideType).getSingleType();
+            if (singleType instanceof IntType || singleType instanceof BoolType)
+                instructionList.add("invokevirtual java/util/Arrays/equals([I[I)Z");
+            else if (singleType instanceof StringType)
+                instructionList.add("invokevirtual java/util/Arrays/equals([java/lang/String;[java/lang/String;)Z");
+            else if (singleType instanceof UserDefinedType) {
+                instructionList.add("invokevirtual java/util/Arrays/equals([Ljava/lang/Object;[Ljava/lang/Object;)Z");
+                System.out.println("aaaa");
+            }
+        }
 
         return null;
     }
@@ -456,6 +466,8 @@ public class CodeGenerator extends Visitor<Void> {
 
     public Void visit(MethodCall methodCall) { /////////////////////////////////////////////need checke
         methodCall.getInstance().accept(this);
+        for (Expression e : methodCall.getArgs())
+            e.accept(this);
         String args = "";
         Type type = methodCall.getInstance().accept(getType);
         try {
@@ -469,12 +481,6 @@ public class CodeGenerator extends Visitor<Void> {
         }catch (ItemNotFoundException e){
 
         }
-//
-//        String args = "";
-//        for (Expression ex : methodCall.getArgs()) {
-//            ex.accept(this);
-//            args +=  convertType(ex.accept(getType));
-//        }
         String methodName = methodCall.getMethodName().getName();
         String obj = ((UserDefinedType)methodCall.getInstance().accept(getType)).getClassDeclaration().getName().getName();
         String returnTupe = convertType(methodCall.accept(getType));
@@ -560,7 +566,7 @@ public class CodeGenerator extends Visitor<Void> {
         if (intValue.getConstant()<=5)
             instructionList.add("iconst_" + intValue.getConstant());
         else
-            instructionList.add("sipush " + intValue.getConstant());
+            instructionList.add("ldc " + intValue.getConstant());
         return null;
     }
 
@@ -616,7 +622,7 @@ public class CodeGenerator extends Visitor<Void> {
         }
         String fieldName = fieldCall.getField().getName();
         String obj = ((UserDefinedType)fieldCall.getInstance().accept(getType)).getClassDeclaration().getName().getName();
-        String type =  convertType(fieldCall.getInstance().accept(getType));
+        String type =  convertType(fieldCall.accept(getType));
 
         instructionList.add("getfield " + obj + "/" + fieldName + ' '+ type);
         return null;
@@ -644,7 +650,14 @@ public class CodeGenerator extends Visitor<Void> {
         instructionList.add("getstatic java/lang/System/out Ljava/io/PrintStream;");
         printStat.getArg().accept(this);
         Type printType = printStat.getArg().accept(getType);
-        instructionList.add("invokevirtual java/io/PrintStream/println(" + convertType(printType) + ")V");
+        if (printType instanceof ArrayType)
+        {
+            instructionList.add("invokestatic java/util/Arrays/toString([" +
+                    convertType(((ArrayType) printType).getSingleType()) +  ")Ljava/lang/String;");
+            instructionList.add("invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V");
+        }
+        else
+            instructionList.add("invokevirtual java/io/PrintStream/println(" + convertType(printType) + ")V");
         return null;
     }
 
@@ -653,12 +666,10 @@ public class CodeGenerator extends Visitor<Void> {
     }
 
     public Void visit(Assign assignStat) {
-        System.out.println(assignStat.getLvalue().toString());
         if (assignStat.getLvalue() instanceof FieldCall) {
             FieldCall fieldCall = (FieldCall)assignStat.getLvalue();
             fieldCall.getInstance().accept(this);
             assignStat.getRvalue().accept(this);
-            System.out.println(fieldCall.getInstance().accept(getType));
             Type objType = ((FieldCall)assignStat.getLvalue()).getInstance().accept(getType);
             String objName = getTypeName(objType);
             String fieldName = ((FieldCall)assignStat.getLvalue()).getField().getName();

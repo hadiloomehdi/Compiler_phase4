@@ -113,6 +113,6 @@ public class SymbolTable {
     }
 
     public void print() {
-        System.out.println(this.items);
+//        System.out.println(this.items);
     }
 }
